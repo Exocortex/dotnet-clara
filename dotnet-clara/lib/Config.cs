@@ -60,7 +60,7 @@ namespace dotnet_clara.lib
 
         public ConfigInfo ReadConfig(string dir)
         {
-            if (dir == null) return null;
+            if (dir == null) dir = home;
 
             string configFilePath = dir + "/.Netclara.json";
             string configFile = System.IO.File.ReadAllText(configFilePath);//json string
