@@ -7,3 +7,7 @@ G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\obj\Debug\dotnet-clara.exe
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\obj\Debug\dotnet-clara.pdb
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\RestSharp.dll
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\RestSharp.xml
+G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\CommandLine.dll
+G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\Newtonsoft.Json.dll
+G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\CommandLine.xml
+G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\Newtonsoft.Json.xml
