@@ -11,6 +11,19 @@ namespace dotnet_clara.lib
 {
     class Config
     {
+        public ConfigInfo defaultConfig;
+
+        public Config()
+        {
+            defaultConfig = new ConfigInfo
+            {
+                apiToken = null,
+                basePath = "/api",
+                host = "https://clara.io",
+                username = null
+            };
+        }
+
         public class ConfigInfo
         {
             public string apiToken { get; set; }
@@ -21,20 +34,16 @@ namespace dotnet_clara.lib
 
         public static string home = Environment.GetEnvironmentVariable("USERPROFILE");
         public string configFilePath =  home + "/.Netclara.json";
-
-        public ConfigInfo defaultConfig = new ConfigInfo
-        {
-            apiToken = null,
-            basePath = "/api",
-            host = "https://clara.io",
-            username = null
-        };
+        
+        // Write the default config to disk when starting.
         public void initializeConfig()
         {
             string configFile = System.IO.File.ReadAllText(configFilePath);//json string
             if (configFile == null)
                 WriteConfig(defaultConfig);
         }
+
+        // Write the config info to disk.
         public void WriteConfig(ConfigInfo configObj)
         {
             if (home == null)
@@ -58,6 +67,7 @@ namespace dotnet_clara.lib
             file.Close();
         }
 
+        // Read the config from disk.
         public ConfigInfo ReadConfig(string dir)
         {
             if (dir == null) dir = home;
@@ -76,6 +86,8 @@ namespace dotnet_clara.lib
                 return null;
             }
         }
+
+        // Get one config item value by key.
         public string GetOneConfigInfo(string key)
         {
             ConfigInfo configObj = ReadConfig(home);
@@ -89,6 +101,7 @@ namespace dotnet_clara.lib
             return value;
         }
 
+        // Set the value of one config item.
         public void SetConfig(string key, string value)
         {
             ConfigInfo curConfig = defaultConfig;
