@@ -30,8 +30,19 @@ namespace dotnet_clara
                     Console.WriteLine("Info {0}:{1}", args[1], config.GetOneConfigInfo(args[1]));
                 if (args[0] == "render")
                 {
-                    var bytes = clara.scene.Render(args[1], "{width:800, height:600, gi:\"on\"}", "{setupCommand:\"\", data:{}}");
+                    var bytes = clara.scene.Render(args[1], "{width:800, height:600}", "{}");
                     var imagePath = "g:\\aaa.png";
+
+                    using (var imageFile = new FileStream(imagePath, FileMode.Create))
+                    {
+                        imageFile.Write(bytes, 0, bytes.Length);
+                        imageFile.Flush();
+                    }
+                }
+                if (args[0] == "export")
+                {
+                    var bytes = clara.scene.Export(args[1], args[2]);
+                    var imagePath = "g:\\test.zip";
 
                     using (var imageFile = new FileStream(imagePath, FileMode.Create))
                     {
