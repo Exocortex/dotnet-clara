@@ -137,19 +137,19 @@ namespace dotnet_clara.lib.resoureces
 
             return response.Content.ReadAsStreamAsync().Result;
         }
+
+        //Clone a scene
         public void Clone(string sceneId)
         {
-            var request = new RestRequest("{sceneId}/clone", RestSharp.Method.POST);
-            request.AddUrlSegment("sceneId", sceneId);
-            string requestUrl = sceneId + "/render";
-            HttpResponseMessage response = method.Request("post", requestUrl, null, true);
+            string requestUrl = sceneId + "/clone";
+            HttpResponseMessage response = method.Request("post", requestUrl, null);
         }
 
         //Delete a scene
         public void Delete(string sceneId)
         {
             string requestUrl = sceneId;
-            HttpResponseMessage response = method.Request("delete", requestUrl, null, true);
+            HttpResponseMessage response = method.Request("delete", requestUrl, null);
         }
     }
 }
