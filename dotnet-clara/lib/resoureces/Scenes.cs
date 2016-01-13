@@ -92,6 +92,8 @@ namespace dotnet_clara.lib.resoureces
                 }
             }
         }
+
+
         public Stream Render(string sceneId, string query, string options)
         {
             RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
@@ -127,12 +129,11 @@ namespace dotnet_clara.lib.resoureces
             request.AddUrlSegment("sceneId", sceneId);
             return null;
         }
+
+        //Export a scene
         public Stream Export(string sceneId, string extension)
         {
-            var request = new RestRequest("{sceneId}/export/{extension}", RestSharp.Method.GET);
-            request.AddUrlSegment("sceneId", sceneId);
-            request.AddUrlSegment("extension", extension);
-            string requestUrl = sceneId + "/render";
+            string requestUrl = sceneId + "/export/" + extension;
             HttpResponseMessage response = method.Request("post", requestUrl, null, true); ;
 
             return response.Content.ReadAsStreamAsync().Result;
