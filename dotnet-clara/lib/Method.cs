@@ -13,32 +13,29 @@ namespace dotnet_clara.lib
 {
     class Method
     {
-        Scenes scene = new Scenes();
+        private string resource;
 
-        public void Request(string[] args)
+        public Method(string resource)
+        {
+            this.resource = resource;
+        }
+
+        public IRestResponse Request(RestRequest req)
         {
             Config config = new Config();
             Config.ConfigInfo configInfo = config.ReadConfig(null);
 
-            
-
             var client = new RestClient();
 
             client.Authenticator = new RestSharp.Authenticators.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
-                
-            client.BaseUrl = new Uri(configInfo.host + configInfo.basePath + "/scenes/");
 
-            var request = new RestRequest();
+            client.BaseUrl = new Uri(configInfo.host + configInfo.basePath + "/"+this.resource+"/");
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = client.Execute(req);
 
-            var imagePath = "g:\\aaa.png";
-            var bytes = response.RawBytes;
-            using (var imageFile = new FileStream(imagePath, FileMode.Create))
-            {
-                imageFile.Write(bytes, 0, bytes.Length);
-                imageFile.Flush();
-            }
+            Console.WriteLine("Info: Status:{0}", response.StatusCode);
+
+            return response;
         }
 
     }

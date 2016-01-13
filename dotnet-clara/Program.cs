@@ -16,7 +16,7 @@ namespace dotnet_clara
     {
         static void Main()
         {
-            Console.Write(".Net Clara version 0.1\n");
+            Console.Write(".Net Clara version 0.2\n");
             Config config = new Config();
             config.initializeConfig();
             lib.Clara clara = new lib.Clara(config);
@@ -28,9 +28,19 @@ namespace dotnet_clara
                     config.SetConfig(args[1], args[2]);
                 if (args[0] == "get")
                     Console.WriteLine("Info {0}:{1}", args[1], config.GetOneConfigInfo(args[1]));
+                if (args[0] == "help")
+                {
+                    Console.WriteLine("*************HELP*****************");
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
+
+                }
                 if (args[0] == "render")
                 {
-                    var bytes = clara.scene.Render(args[1], "{width:800, height:600}", "{}");
+                    var bytes = clara.scene.Render(args[1], "{width:1200, height:600}", "{}");
                     var imagePath = "g:\\aaa.png";
 
                     using (var imageFile = new FileStream(imagePath, FileMode.Create))
@@ -49,6 +59,14 @@ namespace dotnet_clara
                         imageFile.Write(bytes, 0, bytes.Length);
                         imageFile.Flush();
                     }
+                }
+                if (args[0] == "clone")
+                {
+                    clara.scene.Clone(args[1]);
+                }
+                if (args[0] == "delete")
+                {
+                    clara.scene.Delete(args[1]);
                 }
 
             }

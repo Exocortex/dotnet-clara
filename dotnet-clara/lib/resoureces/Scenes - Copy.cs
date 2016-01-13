@@ -15,18 +15,17 @@ namespace dotnet_clara.lib.resoureces
     {
         private string uuid;
 
-        private Method method;
 
         public Scenes()
         {
-            method = new Method("scenes");
+            
         }
 
         public Scenes(string uuid)
         {
             this.uuid = uuid;
-            method = new Method("scenes");
         }
+
 
         public class RenderQuery
         {
@@ -66,6 +65,7 @@ namespace dotnet_clara.lib.resoureces
                 set { }
             }
 
+
             public string DateFormat { get; set; }
 
             public string Namespace { get; set; }
@@ -91,14 +91,34 @@ namespace dotnet_clara.lib.resoureces
             }
         }
 
+        private IRestResponse Request(RestRequest req)
+        {
+            Config config = new Config();
+            Config.ConfigInfo configInfo = config.ReadConfig(null);
+
+            var client = new RestClient();
+
+            client.Authenticator = new RestSharp.Authenticators.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
+
+            client.BaseUrl = new Uri(configInfo.host + configInfo.basePath + "/scenes/");
+
+            IRestResponse response = client.Execute(req);
+
+            Console.WriteLine("Info: Status:{0}", response.StatusCode);
+
+            return response;
+        }
+
+
         public byte[] Render(string sceneId, string query, string options)
         {
             RenderQuery rq = JsonConvert.DeserializeObject<RenderQuery>(query);
             var request = new RestRequest("{sceneId}/render", RestSharp.Method.GET);
             request.JsonSerializer = new NewtonsoftJsonSerializer();
             request.AddUrlSegment("sceneId", sceneId);
-            //***************Query String****************************
+
             PropertyInfo[] properties = typeof(RenderQuery).GetProperties();
+
             foreach (PropertyInfo property in properties)
             {
                 if (property.GetValue(rq) != null)
@@ -106,9 +126,7 @@ namespace dotnet_clara.lib.resoureces
                     request.AddParameter(property.Name, property.GetValue(rq));
                 }
             }
-            //*******************************************************
 
-            //****************Setup Command and Optional Data********
             JObject setupData = new JObject();
             setupData.Add("radius", 50);
             setupData.Add("azimuthAngle", 10);
@@ -137,7 +155,7 @@ namespace dotnet_clara.lib.resoureces
             //request.AddParameter("application/json", json, ParameterType.RequestBody);
             //request.AddParameter("setupData", setupData.ToString(Formatting.None));
 
-            IRestResponse response = method.Request(request);
+            IRestResponse response = Request(request);
             return response.RawBytes;
         }
 
@@ -162,7 +180,7 @@ namespace dotnet_clara.lib.resoureces
             request.AddUrlSegment("sceneId", sceneId);
             request.AddUrlSegment("extension", extension);
 
-            IRestResponse response = method.Request(request);
+            IRestResponse response = Request(request);
             return response.RawBytes;
         }
         public void Clone(string sceneId)
@@ -170,14 +188,14 @@ namespace dotnet_clara.lib.resoureces
             var request = new RestRequest("{sceneId}/clone", RestSharp.Method.POST);
             request.AddUrlSegment("sceneId", sceneId);
 
-            IRestResponse response = method.Request(request);
+            IRestResponse response = Request(request);
         }
         public void Delete(string sceneId)
         {
             var request = new RestRequest("{sceneId}", RestSharp.Method.DELETE);
             request.AddUrlSegment("sceneId", sceneId);
 
-            IRestResponse response = method.Request(request);
+            IRestResponse response = Request(request);
         }
     }
 }
