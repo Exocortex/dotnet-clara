@@ -93,7 +93,7 @@ namespace dotnet_clara.lib.resoureces
             }
         }
 
-
+        //Render an image
         public Stream Render(string sceneId, string query, string options)
         {
             RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
@@ -115,14 +115,22 @@ namespace dotnet_clara.lib.resoureces
 
         }
 
-        public RestRequest Command(string sceneId, string plugin, string command, string options)
+        //Run a command
+        public RestRequest Command(string sceneId, string commandOptions)
         {
-            var request = new RestRequest("{sceneId}/command/{plugin}/{command}", RestSharp.Method.POST);
-            request.AddUrlSegment("sceneId", sceneId);
-            request.AddUrlSegment("plugin", plugin);
-            request.AddUrlSegment("command", command);
+            CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
+            string requestUrl = sceneId + "/command/" + option.command;
+
+            var jsonSerializer = new NewtonsoftJsonSerializer();
+            string json = jsonSerializer.Serialize(option.data);
+
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = method.Request("post", requestUrl, content, true);
+
             return null;
         }
+
+        //Import files
         public RestRequest Import(string sceneId, string options)
         {
             var request = new RestRequest("{sceneId}/import", RestSharp.Method.POST);
