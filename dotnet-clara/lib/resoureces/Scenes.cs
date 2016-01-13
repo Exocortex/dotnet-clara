@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
 using RestSharp;
 using Newtonsoft.Json;
@@ -39,13 +40,14 @@ namespace dotnet_clara.lib.resoureces
             public int fov { get; set; }
             public string quality { get; set; }
             public float gamma { get; set; }
-        }
-
-        public class RenderOptions
-        {
             public string setupCommand { get; set; }
             public JObject data { get; set; }
+        }
 
+        public class CommandOptions
+        {
+            public string command { get; set; }
+            public JObject data { get; set; }
         }
 
         public class NewtonsoftJsonSerializer : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
@@ -90,57 +92,26 @@ namespace dotnet_clara.lib.resoureces
                 }
             }
         }
-
-        public byte[] Render(string sceneId, string query, string options)
+        public Stream Render(string sceneId, string query, string options)
         {
-            RenderQuery rq = JsonConvert.DeserializeObject<RenderQuery>(query);
-            var request = new RestRequest("{sceneId}/render", RestSharp.Method.GET);
-            request.JsonSerializer = new NewtonsoftJsonSerializer();
-            request.AddUrlSegment("sceneId", sceneId);
-            //***************Query String****************************
-            PropertyInfo[] properties = typeof(RenderQuery).GetProperties();
-            foreach (PropertyInfo property in properties)
-            {
-                if (property.GetValue(rq) != null)
-                {
-                    request.AddParameter(property.Name, property.GetValue(rq));
-                }
-            }
-            //*******************************************************
+            RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
+            CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(options);
 
-            //****************Setup Command and Optional Data********
-            JObject setupData = new JObject();
-            setupData.Add("radius", 50);
-            setupData.Add("azimuthAngle", 10);
-            setupData.Add("polarAngle", 10);
+            string requestUrl = sceneId + "/render";
+            
+            renderQuery.setupCommand = option.command;
+            renderQuery.data = option.data;
 
-            string json = "{\"radius\":50,\"azimuthAngle\":10,\"polarAngle\":10}";
-            JObject jsonObj = JObject.Parse(json);
+            var jsonSerializer = new NewtonsoftJsonSerializer();
+            string json = jsonSerializer.Serialize(renderQuery);
 
-            RenderOptions ro = new RenderOptions();
-            request.RequestFormat = DataFormat.Json;
-            ro.setupCommand = "presets/polarCameraSetup";
-            ro.data = setupData;
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //string opt = "{\"setupCommand\":\"presets/polarCameraSetup\",\"data\":{\"radius\":10,\"azimuthAngle\":10,\"polarAngle\":10}}";
-            /*PropertyInfo[] props = typeof(RenderOptions).GetProperties();
-            foreach (PropertyInfo prop in props)
-            {
-                if (prop.GetValue(ro) != null)
-                {
-                    request.AddParameter(prop.Name, prop.GetValue(ro));
-                }
-            }*/
-            request.AddParameter("setupCommand", "presets/polarCameraSetup");
-            request.AddBody(setupData);
-            //request.AddParameter("setupCommand", "presets/polarCameraSetup");
-            //request.AddParameter("application/json", json, ParameterType.RequestBody);
-            //request.AddParameter("setupData", setupData.ToString(Formatting.None));
+            HttpResponseMessage response = method.Request("post", requestUrl, content, true);
 
-            IRestResponse response = method.Request(request);
-            return response.RawBytes;
+            return response.Content.ReadAsStreamAsync().Result;
+
         }
-
 
         public RestRequest Command(string sceneId, string plugin, string command, string options)
         {
@@ -156,28 +127,29 @@ namespace dotnet_clara.lib.resoureces
             request.AddUrlSegment("sceneId", sceneId);
             return null;
         }
-        public byte[] Export(string sceneId, string extension)
+        public Stream Export(string sceneId, string extension)
         {
             var request = new RestRequest("{sceneId}/export/{extension}", RestSharp.Method.GET);
             request.AddUrlSegment("sceneId", sceneId);
             request.AddUrlSegment("extension", extension);
+            string requestUrl = sceneId + "/render";
+            HttpResponseMessage response = method.Request("post", requestUrl, null, true); ;
 
-            IRestResponse response = method.Request(request);
-            return response.RawBytes;
+            return response.Content.ReadAsStreamAsync().Result;
         }
         public void Clone(string sceneId)
         {
             var request = new RestRequest("{sceneId}/clone", RestSharp.Method.POST);
             request.AddUrlSegment("sceneId", sceneId);
-
-            IRestResponse response = method.Request(request);
+            string requestUrl = sceneId + "/render";
+            HttpResponseMessage response = method.Request("post", requestUrl, null, true);
         }
+
+        //Delete a scene
         public void Delete(string sceneId)
         {
-            var request = new RestRequest("{sceneId}", RestSharp.Method.DELETE);
-            request.AddUrlSegment("sceneId", sceneId);
-
-            IRestResponse response = method.Request(request);
+            string requestUrl = sceneId;
+            HttpResponseMessage response = method.Request("delete", requestUrl, null, true);
         }
     }
 }

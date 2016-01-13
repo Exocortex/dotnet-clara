@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using System.Drawing;
+using System.Net.Http;
 using System.IO;
 using dotnet_clara.lib;
 using CommandLine;
@@ -40,25 +41,18 @@ namespace dotnet_clara
                 }
                 if (args[0] == "render")
                 {
-                    var bytes = clara.scene.Render(args[1], "{width:1200, height:600}", "{}");
-                    var imagePath = "g:\\aaa.png";
+                    Stream stream = clara.scene.Render(args[1], "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
 
-                    using (var imageFile = new FileStream(imagePath, FileMode.Create))
-                    {
-                        imageFile.Write(bytes, 0, bytes.Length);
-                        imageFile.Flush();
-                    }
+                    Stream file = File.Create("g:\\aaa.png");
+                    stream.CopyTo(file);
+                    file.Close();
                 }
                 if (args[0] == "export")
                 {
-                    var bytes = clara.scene.Export(args[1], args[2]);
-                    var imagePath = "g:\\test.zip";
-
-                    using (var imageFile = new FileStream(imagePath, FileMode.Create))
-                    {
-                        imageFile.Write(bytes, 0, bytes.Length);
-                        imageFile.Flush();
-                    }
+                    Stream stream = clara.scene.Export(args[1], args[2]);
+                    Stream file = File.Create("g:\\test.zip");
+                    stream.CopyTo(file);
+                    file.Close();
                 }
                 if (args[0] == "clone")
                 {

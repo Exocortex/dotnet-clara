@@ -104,7 +104,7 @@ namespace dotnet_clara.lib
         // Set the value of one config item.
         public void SetConfig(string key, string value)
         {
-            ConfigInfo curConfig = defaultConfig;
+            ConfigInfo curConfig = ReadConfig(home);
             PropertyInfo[] properties = typeof(ConfigInfo).GetProperties();
 
             foreach (PropertyInfo property in properties)

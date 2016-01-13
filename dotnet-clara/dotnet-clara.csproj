@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
     <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
       <Private>True</Private>
@@ -48,11 +49,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
