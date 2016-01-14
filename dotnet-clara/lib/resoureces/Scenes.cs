@@ -191,7 +191,7 @@ namespace dotnet_clara.lib.resoureces
         }
 
         //Update a scene
-        public HttpResponseMessage Update(string sceneId, string sceneName)
+        public async Task<HttpResponseMessage> Update(string sceneId, string sceneName)
         {
             string requestUrl = sceneId;
 
@@ -199,8 +199,8 @@ namespace dotnet_clara.lib.resoureces
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("put", requestUrl, content);
-            return response;
+            Task<HttpResponseMessage> response = method.RequestAsync("put", requestUrl, content);
+            return await response;
         }
     }
 }

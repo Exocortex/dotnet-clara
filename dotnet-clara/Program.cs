@@ -117,7 +117,7 @@ namespace dotnet_clara
                     string sceneName = null;
                     if (args[2].Length != 0)
                         sceneName = args[2];
-                    HttpResponseMessage resp = p.clara.scene.Update(args[1], sceneName);
+                    HttpResponseMessage resp = p.clara.scene.Update(args[1], sceneName).Result;
                     Console.WriteLine(resp.StatusCode);
                 }
 
