@@ -31,7 +31,7 @@ namespace dotnet_clara
             Console.WriteLine("Begin Rendering Process>>>>>>>>>>>>>>>>");
             string sceneId = "c4afda13-1fa8-4179-a1ec-66c13346ba5a";
             Stream stream1;
-            Task<Stream> getStream1 = clara.scene.RenderAsync(sceneId, "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+            Task<Stream> getStream1 = clara.scene.Render(sceneId, "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
             int filename = rnd.Next();
             Stream file1 = File.Create("g:\\"+filename+".png");
             
@@ -75,7 +75,7 @@ namespace dotnet_clara
                 }
                 if (args[0] == "render")
                 {
-                    Stream stream = p.clara.scene.Render(args[1], "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+                    Stream stream = p.clara.scene.Render(args[1], "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}").Result;
 
                     Stream file = File.Create("g:\\aaa.png");
                     stream.CopyTo(file);
