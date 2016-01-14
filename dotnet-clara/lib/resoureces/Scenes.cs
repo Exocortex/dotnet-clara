@@ -50,6 +50,7 @@ namespace dotnet_clara.lib.resoureces
             public float gamma { get; set; }
             public string setupCommand { get; set; }
             public JObject data { get; set; }
+           
         }
 
         public class CommandOptions
@@ -65,8 +66,11 @@ namespace dotnet_clara.lib.resoureces
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(options);
 
             string requestUrl = sceneId + "/render";
+            if (option.command == null)
+                renderQuery.setupCommand = "";
+            else
+                renderQuery.setupCommand = option.command;
 
-            renderQuery.setupCommand = option.command;
             renderQuery.data = option.data;
             
             var jsonSerializer = new Method.NewtonsoftJsonSerializer();
@@ -87,11 +91,17 @@ namespace dotnet_clara.lib.resoureces
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
             string requestUrl = sceneId + "/command/" + option.command;
 
+            var data = new { data = option.data };
+
             var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(option.data);
+            string json;
+            if (option.data == null)
+                json = "{}";
+            else
+                json = jsonSerializer.Serialize(data);
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content, true);
+            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content);
 
             return await response;
         }

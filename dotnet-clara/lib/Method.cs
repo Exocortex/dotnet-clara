@@ -132,15 +132,18 @@ namespace dotnet_clara.lib
                     if (reqOutput)
                     {
                         HttpResponseMessage resp = await response;
-                        HttpResponseMessage outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
-
-                        while (outputResponse.Content.Headers.ContentDisposition == null)
+                        if (resp.Headers.Location != null)
                         {
-                            Thread.Sleep(2000);
-                            outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
-                        }
+                            HttpResponseMessage outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
 
-                        return outputResponse;
+                            while (outputResponse.Content.Headers.ContentDisposition == null)
+                            {
+                                Thread.Sleep(2000);
+                                outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
+                            }
+
+                            return outputResponse;
+                        }
                     }
                     break;
                 case "get":

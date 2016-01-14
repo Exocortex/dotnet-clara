@@ -74,7 +74,9 @@ namespace dotnet_clara
                 }
                 if (args[0] == "render")
                 {
-                    Stream stream = p.clara.scene.Render(args[1], "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}").Result;
+                    //Stream stream = p.clara.scene.Render(args[1], "{}", "{}").Result;
+
+                    Stream stream = p.clara.scene.Render(args[1], "{width:1200, height:600}", "{}").Result;
 
                     Stream file = File.Create("g:\\aaa.png");
                     stream.CopyTo(file);
@@ -82,7 +84,9 @@ namespace dotnet_clara
                 }
                 if (args[0] == "command")
                 {
-                    p.clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}").RunSynchronously();
+                    HttpResponseMessage resp = p.clara.scene.Command(args[1], "{command:\"vray/sceneSetup\"}").Result;
+                    //p.clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+                    Console.WriteLine(resp.StatusCode);
                 }
                 if (args[0] == "import")
                 {
