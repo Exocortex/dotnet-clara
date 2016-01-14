@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace dotnet_clara.lib.resoureces
 {
-    class Scenes
+    public class Scenes
     {
         private string uuid;
 
@@ -96,13 +96,13 @@ namespace dotnet_clara.lib.resoureces
         }
 
         //Render an image
-        public Stream Render(string sceneId, string query, string options)
+        public async Task<Stream> Render(string sceneId, string query, string options)
         {
             RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(options);
 
             string requestUrl = sceneId + "/render";
-            
+
             renderQuery.setupCommand = option.command;
             renderQuery.data = option.data;
 
@@ -111,10 +111,11 @@ namespace dotnet_clara.lib.resoureces
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("post", requestUrl, content, true);
+            Task<HttpResponseMessage> getResponse = method.RequestAsync("post", requestUrl, content, true);
 
-            return response.Content.ReadAsStreamAsync().Result;
+            HttpResponseMessage resp = await getResponse;
 
+            return await resp.Content.ReadAsStreamAsync();
         }
 
         //Run a command

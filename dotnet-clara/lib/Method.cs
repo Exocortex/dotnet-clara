@@ -14,54 +14,57 @@ using dotnet_clara.lib.resoureces;
 
 namespace dotnet_clara.lib
 {
-    class Method
+    public class Method
     {
         private string resource;
+        private HttpClient client;
+        private Config config;
+        private Config.ConfigInfo configInfo;
 
         public Method(string resource)
         {
             this.resource = resource;
+            this.client = new HttpClient();
+            this.config = new Config();
+            this.configInfo = config.ReadConfig(null);
+
+            this.client.BaseAddress = new Uri("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
+
+            this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+                Convert.ToBase64String(
+                    System.Text.ASCIIEncoding.ASCII.GetBytes(
+                        string.Format("{0}:{1}", configInfo.username, configInfo.apiToken))));
         }
 
         public HttpResponseMessage Request(string method, string requestUrl, HttpContent content, bool reqOutput = false)
         {
-            Config config = new Config();
-            Config.ConfigInfo configInfo = config.ReadConfig(null);
             HttpResponseMessage response = null;
-
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            client.BaseAddress = new Uri("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
-
-            var credentials = Encoding.ASCII.GetBytes(configInfo.username+":"+configInfo.apiToken);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(
-                    System.Text.ASCIIEncoding.ASCII.GetBytes(
-                        string.Format("{0}:{1}", configInfo.username, configInfo.apiToken))));
+   
+            this.client.DefaultRequestHeaders.Accept.Clear();
+            this.client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));          
 
             switch (method)
             {
                 case "post":
-                    response = client.PostAsync(requestUrl, content).Result;
+                    response = this.client.PostAsync(requestUrl, content).Result;
                     if (reqOutput && response.Headers.Location != null)
                     {
-                        HttpResponseMessage outputResponse = client.GetAsync(response.Headers.Location).Result;
+                        HttpResponseMessage outputResponse = this.client.GetAsync(response.Headers.Location).Result;
+
                         while (outputResponse.Content.Headers.ContentDisposition == null)
                         {
                             Thread.Sleep(2000);
-                            outputResponse = client.GetAsync(response.Headers.Location).Result;
+                            outputResponse = this.client.GetAsync(response.Headers.Location).Result;
                         }
                         
                         return outputResponse;
                     }
                     break;
                 case "get":
-                    response = client.GetAsync(requestUrl).Result;
+                    response = this.client.GetAsync(requestUrl).Result;
                     break;
                 case "delete":
-                    response = client.DeleteAsync(requestUrl).Result;
+                    response = this.client.DeleteAsync(requestUrl).Result;
                     break;
                 case "put":
                     break;
@@ -69,10 +72,41 @@ namespace dotnet_clara.lib
             return response;
         }
 
-        public bool statusCheck(HttpClient client, string location)
+        public async Task<HttpResponseMessage> RequestAsync(string method, string requestUrl, HttpContent content, bool reqOutput = false)
         {
-            HttpResponseMessage outputResponse = client.GetAsync(location).Result;
-            return true;
+            Task<HttpResponseMessage> response = null;
+
+            this.client.DefaultRequestHeaders.Accept.Clear();
+            this.client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            switch (method)
+            {
+                case "post":
+                    response = this.client.PostAsync(requestUrl, content);
+                    if (reqOutput)
+                    {
+                        HttpResponseMessage resp = await response;
+                        HttpResponseMessage outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
+
+                        while (outputResponse.Content.Headers.ContentDisposition == null)
+                        {
+                            Thread.Sleep(2000);
+                            outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
+                        }
+
+                        return outputResponse;
+                    }
+                    break;
+                case "get":
+                    response = this.client.GetAsync(requestUrl);
+                    break;
+                case "delete":
+                    response = this.client.DeleteAsync(requestUrl);
+                    break;
+                case "put":
+                    break;
+            }
+            return await response;
         }
 
     }

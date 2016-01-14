@@ -15,20 +15,48 @@ namespace dotnet_clara
 {
     class Program
     {
+        lib.Clara clara;
+        Config config;
+
+        public Program()
+        {
+            
+            config = new Config();
+            
+            clara = new lib.Clara(config);
+        }
+        public async void AsyncTest()
+        {
+            Random rnd = new Random();
+            Console.WriteLine("Begin Rendering Process>>>>>>>>>>>>>>>>");
+            string sceneId = "c4afda13-1fa8-4179-a1ec-66c13346ba5a";
+            Stream stream1;
+            Task<Stream> getStream1 = clara.scene.RenderAsync(sceneId, "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+            int filename = rnd.Next();
+            Stream file1 = File.Create("g:\\"+filename+".png");
+            
+            stream1 = await getStream1;
+            stream1.CopyTo(file1);
+            file1.Close();
+            Console.WriteLine("End Rendering Process<<<<<<<<<<<<<<<<<<");
+
+
+        }
         static void Main()
         {
-            Console.Write(".Net Clara version 0.2\n");
-            Config config = new Config();
-            config.initializeConfig();
-            lib.Clara clara = new lib.Clara(config);
+
+            Program p = new Program();
             while (true)
             {
+                p.config.initializeConfig();
+
+                Console.Write(".Net Clara version 0.2\n");
                 Console.Write(">");
                 string[] args = Console.ReadLine().Split(' ');
                 if (args[0] == "set")
-                    config.SetConfig(args[1], args[2]);
+                    p.config.SetConfig(args[1], args[2]);
                 if (args[0] == "get")
-                    Console.WriteLine("Info {0}:{1}", args[1], config.GetOneConfigInfo(args[1]));
+                    Console.WriteLine("Info {0}:{1}", args[1], p.config.GetOneConfigInfo(args[1]));
                 if (args[0] == "help")
                 {
                     Console.WriteLine("*************HELP*****************");
@@ -39,9 +67,15 @@ namespace dotnet_clara
                     Console.WriteLine();
 
                 }
+                if (args[0] == "async")
+                {
+                    p.AsyncTest();
+                    p.AsyncTest();
+                    p.AsyncTest();
+                }
                 if (args[0] == "render")
                 {
-                    Stream stream = clara.scene.Render(args[1], "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+                    Stream stream = p.clara.scene.Render(args[1], "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
 
                     Stream file = File.Create("g:\\aaa.png");
                     stream.CopyTo(file);
@@ -49,7 +83,7 @@ namespace dotnet_clara
                 }
                 if (args[0] == "command")
                 {
-                    clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+                    p.clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
                 }
                 if (args[0] == "import")
                 {
@@ -58,22 +92,22 @@ namespace dotnet_clara
                     filelist[1] = args[3];
                     filelist[2] = args[4];
                     filelist[3] = args[5];
-                    clara.scene.Import(args[1], filelist);
+                    p.clara.scene.Import(args[1], filelist);
                 }
                 if (args[0] == "export")
                 {
-                    Stream stream = clara.scene.Export(args[1], args[2]);
+                    Stream stream = p.clara.scene.Export(args[1], args[2]);
                     Stream file = File.Create("g:\\test.zip");
                     stream.CopyTo(file);
                     file.Close();
                 }
                 if (args[0] == "clone")
                 {
-                    clara.scene.Clone(args[1]);
+                    p.clara.scene.Clone(args[1]);
                 }
                 if (args[0] == "delete")
                 {
-                    clara.scene.Delete(args[1]);
+                    p.clara.scene.Delete(args[1]);
                 }
 
             }
