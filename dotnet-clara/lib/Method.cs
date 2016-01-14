@@ -23,7 +23,7 @@ namespace dotnet_clara.lib
             this.resource = resource;
         }
 
-        public HttpResponseMessage Request(string method, string requestUrl, StringContent content, bool reqOutput = false)
+        public HttpResponseMessage Request(string method, string requestUrl, HttpContent content, bool reqOutput = false)
         {
             Config config = new Config();
             Config.ConfigInfo configInfo = config.ReadConfig(null);

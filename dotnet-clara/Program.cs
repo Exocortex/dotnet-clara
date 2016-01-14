@@ -51,6 +51,15 @@ namespace dotnet_clara
                 {
                     clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
                 }
+                if (args[0] == "import")
+                {
+                    string[] filelist = new string[4];
+                    filelist[0] = args[2];
+                    filelist[1] = args[3];
+                    filelist[2] = args[4];
+                    filelist[3] = args[5];
+                    clara.scene.Import(args[1], filelist);
+                }
                 if (args[0] == "export")
                 {
                     Stream stream = clara.scene.Export(args[1], args[2]);

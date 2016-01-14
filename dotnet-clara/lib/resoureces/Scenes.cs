@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using RestSharp;
 using Newtonsoft.Json;
@@ -116,7 +118,7 @@ namespace dotnet_clara.lib.resoureces
         }
 
         //Run a command
-        public RestRequest Command(string sceneId, string commandOptions)
+        public HttpStatusCode Command(string sceneId, string commandOptions)
         {
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
             string requestUrl = sceneId + "/command/" + option.command;
@@ -127,15 +129,29 @@ namespace dotnet_clara.lib.resoureces
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage response = method.Request("post", requestUrl, content, true);
 
-            return null;
+            return response.StatusCode;
         }
 
         //Import files
-        public RestRequest Import(string sceneId, string options)
+        public HttpStatusCode Import(string sceneId, string[] fileList)
         {
-            var request = new RestRequest("{sceneId}/import", RestSharp.Method.POST);
-            request.AddUrlSegment("sceneId", sceneId);
-            return null;
+            string requestUrl = sceneId + "/import";
+
+            var content = new MultipartFormDataContent();
+
+            foreach (string file in fileList)
+            {
+                var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(file));
+
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = file
+                };
+                content.Add(fileContent);
+            }
+            HttpResponseMessage response = method.Request("post", requestUrl, content);
+
+            return response.StatusCode;
         }
 
         //Export a scene
@@ -148,17 +164,19 @@ namespace dotnet_clara.lib.resoureces
         }
 
         //Clone a scene
-        public void Clone(string sceneId)
+        public HttpStatusCode Clone(string sceneId)
         {
             string requestUrl = sceneId + "/clone";
             HttpResponseMessage response = method.Request("post", requestUrl, null);
+            return response.StatusCode;
         }
 
         //Delete a scene
-        public void Delete(string sceneId)
+        public HttpStatusCode Delete(string sceneId)
         {
             string requestUrl = sceneId;
             HttpResponseMessage response = method.Request("delete", requestUrl, null);
+            return response.StatusCode;
         }
     }
 }
