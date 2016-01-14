@@ -182,12 +182,25 @@ namespace dotnet_clara.lib.resoureces
         }
 
         //Create a scene
-        public async Task<HttpResponseMessage> Create(string sceneName = null)
+        public async Task<HttpResponseMessage> Create()
         {
             string requestUrl = null;
-            StringContent content = new StringContent(sceneName, Encoding.UTF8);
-            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content);
+
+            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, null);
             return await response;
+        }
+
+        //Update a scene
+        public HttpResponseMessage Update(string sceneId, string sceneName)
+        {
+            string requestUrl = sceneId;
+
+            string json = "{\"name\":\"" + sceneName + "\"}";
+
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = method.Request("put", requestUrl, content);
+            return response;
         }
     }
 }

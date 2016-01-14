@@ -67,6 +67,7 @@ namespace dotnet_clara.lib
                     response = this.client.DeleteAsync(requestUrl).Result;
                     break;
                 case "put":
+                    response = this.client.PutAsync(requestUrl, content).Result;
                     break;
             }
             return response;
@@ -104,6 +105,7 @@ namespace dotnet_clara.lib
                     response = this.client.DeleteAsync(requestUrl);
                     break;
                 case "put":
+                    response = this.client.PutAsync(requestUrl, content);
                     break;
             }
             return await response;
