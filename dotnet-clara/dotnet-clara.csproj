@@ -64,6 +64,7 @@
     <Compile Include="lib\Config.cs" />
     <Compile Include="lib\Method.cs" />
     <Compile Include="lib\resoureces\Scenes.cs" />
+    <Compile Include="lib\resoureces\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -31,6 +31,12 @@ namespace dotnet_clara.lib.resoureces
             method = new Method("scenes");
         }
 
+        public class Query
+        {
+            public int page { get; set; }
+            public int perPage { get; set; }
+            public string query { get; set; }
+        }
         public class RenderQuery
         {
             public int time { get; set; }
@@ -52,49 +58,6 @@ namespace dotnet_clara.lib.resoureces
             public JObject data { get; set; }
         }
 
-        public class NewtonsoftJsonSerializer : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
-        {
-            private Newtonsoft.Json.JsonSerializer jsonSerializer;
-
-            public NewtonsoftJsonSerializer()
-            {
-                this.jsonSerializer = new Newtonsoft.Json.JsonSerializer()
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                };
-            }
-
-            public string ContentType
-            {
-                get { return "application/json"; } // Probably used for Serialization?
-                set { }
-            }
-
-            public string DateFormat { get; set; }
-
-            public string Namespace { get; set; }
-
-            public string RootElement { get; set; }
-
-            public string Serialize(object obj)
-            {
-                return JsonConvert.SerializeObject(obj);
-            }
-
-            public T Deserialize<T>(RestSharp.IRestResponse response)
-            {
-                var content = response.Content;
-
-                using (var stringReader = new StringReader(content))
-                {
-                    using (var jsonTextReader = new JsonTextReader(stringReader))
-                    {
-                        return jsonSerializer.Deserialize<T>(jsonTextReader);
-                    }
-                }
-            }
-        }
-
         //Render an image
         public async Task<Stream> Render(string sceneId, string query, string options)
         {
@@ -105,8 +68,8 @@ namespace dotnet_clara.lib.resoureces
 
             renderQuery.setupCommand = option.command;
             renderQuery.data = option.data;
-
-            var jsonSerializer = new NewtonsoftJsonSerializer();
+            
+            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
             string json = jsonSerializer.Serialize(renderQuery);
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -124,7 +87,7 @@ namespace dotnet_clara.lib.resoureces
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
             string requestUrl = sceneId + "/command/" + option.command;
 
-            var jsonSerializer = new NewtonsoftJsonSerializer();
+            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
             string json = jsonSerializer.Serialize(option.data);
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -211,5 +174,20 @@ namespace dotnet_clara.lib.resoureces
             Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, null);
             return await response;
         }
+
+        //List public scenes
+        public async Task<HttpResponseMessage> Library(string query)
+        {
+            string requestUrl = null;
+
+            Query queryObj = JsonConvert.DeserializeObject<Query>(query);
+            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
+            string json = jsonSerializer.Serialize(queryObj);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, content);
+            return await response;
+        }
+
     }
 }

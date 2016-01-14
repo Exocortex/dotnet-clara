@@ -43,5 +43,13 @@ namespace dotnet_clara.lib.resoureces.Tests
             resp = scene.Get(sceneId).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
+
+        [TestMethod()]
+        public void LibraryTest()
+        {
+            string query = "{\"page\":5,\"perPage\":10,\"query\":\"robot\" }";
+            resp = scene.Library(query).Result;
+            Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
+        }
     }
 }

@@ -10,6 +10,8 @@ using System.Net.Http.Headers;
 using RestSharp;
 using System.Drawing;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using dotnet_clara.lib.resoureces;
 
 namespace dotnet_clara.lib
@@ -34,6 +36,49 @@ namespace dotnet_clara.lib
                 Convert.ToBase64String(
                     System.Text.ASCIIEncoding.ASCII.GetBytes(
                         string.Format("{0}:{1}", configInfo.username, configInfo.apiToken))));
+        }
+
+        public class NewtonsoftJsonSerializer : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
+        {
+            private Newtonsoft.Json.JsonSerializer jsonSerializer;
+
+            public NewtonsoftJsonSerializer()
+            {
+                this.jsonSerializer = new Newtonsoft.Json.JsonSerializer()
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+            }
+
+            public string ContentType
+            {
+                get { return "application/json"; } // Probably used for Serialization?
+                set { }
+            }
+
+            public string DateFormat { get; set; }
+
+            public string Namespace { get; set; }
+
+            public string RootElement { get; set; }
+
+            public string Serialize(object obj)
+            {
+                return JsonConvert.SerializeObject(obj);
+            }
+
+            public T Deserialize<T>(RestSharp.IRestResponse response)
+            {
+                var content = response.Content;
+
+                using (var stringReader = new StringReader(content))
+                {
+                    using (var jsonTextReader = new JsonTextReader(stringReader))
+                    {
+                        return jsonSerializer.Deserialize<T>(jsonTextReader);
+                    }
+                }
+            }
         }
 
         public HttpResponseMessage Request(string method, string requestUrl, HttpContent content, bool reqOutput = false)
@@ -110,6 +155,8 @@ namespace dotnet_clara.lib
             }
             return await response;
         }
+
+
 
     }
 }
