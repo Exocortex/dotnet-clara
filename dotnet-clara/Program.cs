@@ -39,8 +39,6 @@ namespace dotnet_clara
             stream1.CopyTo(file1);
             file1.Close();
             Console.WriteLine("End Rendering Process<<<<<<<<<<<<<<<<<<");
-
-
         }
         static void Main()
         {
@@ -83,7 +81,7 @@ namespace dotnet_clara
                 }
                 if (args[0] == "command")
                 {
-                    p.clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
+                    p.clara.scene.Command(args[1], "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}").RunSynchronously();
                 }
                 if (args[0] == "import")
                 {
@@ -92,22 +90,30 @@ namespace dotnet_clara
                     filelist[1] = args[3];
                     filelist[2] = args[4];
                     filelist[3] = args[5];
-                    p.clara.scene.Import(args[1], filelist);
+                    p.clara.scene.Import(args[1], filelist).RunSynchronously();
                 }
                 if (args[0] == "export")
                 {
-                    Stream stream = p.clara.scene.Export(args[1], args[2]);
+                    Stream stream = p.clara.scene.Export(args[1], args[2]).Result;
                     Stream file = File.Create("g:\\test.zip");
                     stream.CopyTo(file);
                     file.Close();
                 }
                 if (args[0] == "clone")
                 {
-                    p.clara.scene.Clone(args[1]);
+                    p.clara.scene.Clone(args[1]).RunSynchronously();
                 }
                 if (args[0] == "delete")
                 {
-                    p.clara.scene.Delete(args[1]);
+                    p.clara.scene.Delete(args[1]).RunSynchronously();
+                }
+                if (args[0] == "create")
+                {
+                    string sceneName = null;
+                    if (args[1].Length != 0);
+                        sceneName = args[1];
+                    HttpResponseMessage resp = p.clara.scene.Create(sceneName).Result;
+                    Console.WriteLine(resp.StatusCode);
                 }
 
             }

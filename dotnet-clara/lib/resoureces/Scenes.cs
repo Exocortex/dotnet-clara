@@ -119,7 +119,7 @@ namespace dotnet_clara.lib.resoureces
         }
 
         //Run a command
-        public HttpStatusCode Command(string sceneId, string commandOptions)
+        public async Task<HttpResponseMessage> Command(string sceneId, string commandOptions)
         {
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
             string requestUrl = sceneId + "/command/" + option.command;
@@ -128,13 +128,13 @@ namespace dotnet_clara.lib.resoureces
             string json = jsonSerializer.Serialize(option.data);
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = method.Request("post", requestUrl, content, true);
+            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content, true);
 
-            return response.StatusCode;
+            return await response;
         }
 
         //Import files
-        public HttpStatusCode Import(string sceneId, string[] fileList)
+        public async Task<HttpResponseMessage> Import(string sceneId, string[] fileList)
         {
             string requestUrl = sceneId + "/import";
 
@@ -150,34 +150,44 @@ namespace dotnet_clara.lib.resoureces
                 };
                 content.Add(fileContent);
             }
-            HttpResponseMessage response = method.Request("post", requestUrl, content);
+            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content);
 
-            return response.StatusCode;
+            return await response;
         }
 
         //Export a scene
-        public Stream Export(string sceneId, string extension)
+        public async Task<Stream> Export(string sceneId, string extension)
         {
             string requestUrl = sceneId + "/export/" + extension;
-            HttpResponseMessage response = method.Request("post", requestUrl, null, true); ;
+            Task<HttpResponseMessage> getResponse = method.RequestAsync("post", requestUrl, null, true); ;
+            HttpResponseMessage resp = await getResponse;
 
-            return response.Content.ReadAsStreamAsync().Result;
+            return await resp.Content.ReadAsStreamAsync();
         }
 
         //Clone a scene
-        public HttpStatusCode Clone(string sceneId)
+        public async Task<HttpResponseMessage> Clone(string sceneId)
         {
             string requestUrl = sceneId + "/clone";
-            HttpResponseMessage response = method.Request("post", requestUrl, null);
-            return response.StatusCode;
+            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, null);
+            return await response;
         }
 
         //Delete a scene
-        public HttpStatusCode Delete(string sceneId)
+        public async Task<HttpResponseMessage> Delete(string sceneId)
         {
             string requestUrl = sceneId;
-            HttpResponseMessage response = method.Request("delete", requestUrl, null);
-            return response.StatusCode;
+            Task<HttpResponseMessage> response = method.RequestAsync("delete", requestUrl, null);
+            return await response;
+        }
+
+        //Create a scene
+        public async Task<HttpResponseMessage> Create(string sceneName = null)
+        {
+            string requestUrl = null;
+            StringContent content = new StringContent(sceneName, Encoding.UTF8);
+            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content);
+            return await response;
         }
     }
 }
