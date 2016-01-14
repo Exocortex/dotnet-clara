@@ -83,7 +83,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         [TestMethod()]
         public void CommandTest()
         {
-            string commandOpt = "{\"setupCommand\":\"vary/sceneSetup\"}";
+            string commandOpt = "{command:\"vary/sceneSetup\"}";
             resp = scene.Command(sceneId,commandOpt).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
