@@ -24,6 +24,14 @@ namespace dotnet_clara.lib.resoureces
             public int perPage { get; set; }
             public string query { get; set; }
         }
+        //Get user profile
+        public async Task<HttpResponseMessage> Get(string username)
+        {
+            string requestUrl = "users/" + username;
+
+            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, null);
+            return await response;
+        }
 
         //Create a scene
         public async Task<HttpResponseMessage> List(string username, string query)
