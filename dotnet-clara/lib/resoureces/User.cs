@@ -18,11 +18,16 @@ namespace dotnet_clara.lib.resoureces
             method = new Method("users");
         }
 
-        public class Query
+        public class SceneQuery
         {
             public int page { get; set; }
             public int perPage { get; set; }
             public string query { get; set; }
+        }
+        public class JobQuery
+        {
+            public int page { get; set; }
+            public int perPage { get; set; }
         }
 
         public class Profile
@@ -57,7 +62,7 @@ namespace dotnet_clara.lib.resoureces
         {            
             string requestUrl = username + "/scenes";
 
-            Query queryObj = JsonConvert.DeserializeObject<Query>(query);
+            SceneQuery queryObj = JsonConvert.DeserializeObject<SceneQuery>(query);
             var jsonSerializer = new Method.NewtonsoftJsonSerializer();
             string json = jsonSerializer.Serialize(queryObj);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -71,7 +76,7 @@ namespace dotnet_clara.lib.resoureces
         {
             string requestUrl = username + "/jobs";
 
-            Query qry = JsonConvert.DeserializeObject<Query>(query);
+            JobQuery qry = JsonConvert.DeserializeObject<JobQuery>(query);
             var jsonSerializer = new Method.NewtonsoftJsonSerializer();
             string json = jsonSerializer.Serialize(qry);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");

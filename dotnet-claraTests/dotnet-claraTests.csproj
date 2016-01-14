@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="lib\resoureces\JobsTests.cs" />
     <Compile Include="lib\resoureces\ScenesTests.cs" />
+    <Compile Include="lib\resoureces\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
