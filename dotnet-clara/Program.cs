@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 using System.Drawing;
+using System.Net;
 using System.Net.Http;
 using System.IO;
 using dotnet_clara.lib;
@@ -118,6 +119,7 @@ namespace dotnet_clara
                     if (args[2].Length != 0)
                         sceneName = args[2];
                     HttpResponseMessage resp = p.clara.scene.Update(args[1], sceneName).Result;
+                    Console.WriteLine(HttpStatusCode.OK);
                     Console.WriteLine(resp.StatusCode);
                 }
 

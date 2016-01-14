@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using dotnet_clara.lib.resoureces;
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,8 @@ namespace dotnet_clara.lib.resoureces.Tests
     {
         Scenes scene = new Scenes();
         string sceneId = "c4afda13-1fa8-4179-a1ec-66c13346ba5a";
+
+        HttpResponseMessage resp;
         [TestMethod()]
         public void RenderTest()
         {
@@ -24,6 +28,20 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void CommandTest()
         {
             Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void UpdateTest()
+        {
+            resp = scene.Update(sceneId, "newName").Result;
+            Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
+        }
+
+        [TestMethod()]
+        public void getTest()
+        {
+            resp = scene.Get(sceneId).Result;
+            Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
     }
 }

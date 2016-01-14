@@ -202,5 +202,14 @@ namespace dotnet_clara.lib.resoureces
             Task<HttpResponseMessage> response = method.RequestAsync("put", requestUrl, content);
             return await response;
         }
+
+        //Create a scene
+        public async Task<HttpResponseMessage> Get(string sceneId)
+        {
+            string requestUrl = sceneId;
+
+            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, null);
+            return await response;
+        }
     }
 }
