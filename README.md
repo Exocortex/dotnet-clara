@@ -9,7 +9,6 @@
 ```bash
 $ clara set apiToken <api-token>
 $ clara set username <username>
-$ clara scenes:get <uuid>
 ```
 
 ## API Overview
