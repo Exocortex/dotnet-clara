@@ -19,7 +19,7 @@ namespace dotnet_clara.lib
             {
                 apiToken = null,
                 basePath = "/api",
-                host = "https://clara.io",
+                host = "clara.io",
                 username = null
             };
         }

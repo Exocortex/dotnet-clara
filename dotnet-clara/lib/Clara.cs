@@ -14,10 +14,12 @@ namespace dotnet_clara.lib
         public User user;
         private Config config;
 
-        public Clara()
+        public Clara(string username, string apiToken)
         {
             this.config = new Config();
             config.initializeConfig();
+            config.SetConfig("username", username);
+            config.SetConfig("apiToken", apiToken);
             this.scene = new Scenes();
             this.jobs = new Jobs();
             this.user = new User();

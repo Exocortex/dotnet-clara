@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="lib\Clara.cs" />
-    <Compile Include="lib\Cli.cs" />
+    <Compile Include="lib\Options.cs" />
     <Compile Include="lib\Config.cs" />
     <Compile Include="lib\Method.cs" />
     <Compile Include="lib\resoureces\Jobs.cs" />

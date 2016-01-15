@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("dotnet-clara")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("The clara api wrapper for .Net framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Exocortex Tech Inc.")]
 [assembly: AssemblyProduct("dotnet-clara")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
