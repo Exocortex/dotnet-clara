@@ -28,18 +28,9 @@ namespace dotnet_clara
         
         static void Main(string[] args)
         {
-            var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
-            var exitCode = result
-              .MapResult(
-                options = > {
-                if (options.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", options.InputFiles.ToArray()));
-                return 0;
-            },
-      errors => {
-          LogHelper.Log(errors);
-          return 1;
-      });
-            return exitCode;
+            Program p = new Program();
+            var result = Parser.Default.ParseArguments<Cli>(args);
+            var str = result;
         }
 
     }
