@@ -10,21 +10,23 @@ namespace dotnet_clara.lib
 {
     public class Options
     {
-<<<<<<< HEAD
-        [Option('r', "read", Required = true,
-          HelpText = "Input files to be processed.")]
-        public IEnumerable<string> InputFiles { get; set; }
-
-        // Omitting long name, default --verbose
-        [Option(
-          HelpText = "Prints all messages to standard output.")]
-        public bool Verbose { get; set; }
-
-=======
         public Options()
         {
             // Since we create this instance the parser will not overwrite it
             SetVerb = new SetSubOptions();
+        }
+        [HelpOption]
+        public string GetUsage()
+        {
+            // this without using CommandLine.Text
+            //  or using HelpText.AutoBuild
+            var usage = new StringBuilder();
+            usage.AppendLine("dotnet clara v1.0");
+            usage.AppendLine("Read README file for more usage instructions...");
+            usage.AppendLine("help : for help" );
+            usage.AppendLine("set --<option> [value] : set one configuration item.");
+            usage.AppendLine("get --<option> [value] : get one configuration item.");
+            return usage.ToString();
         }
 
         [VerbOption("set", HelpText = "Record changes to the repository.")]
@@ -32,6 +34,13 @@ namespace dotnet_clara.lib
 
         [VerbOption("get", HelpText = "Update remote refs along with associated objects.")]
         public GetSubOptions AddVerb { get; set; }
+
+        [VerbOption("job", HelpText = "Update remote refs along with associated objects.")]
+        public JobsSubOptions JobsVerb { get; set; }
+        [VerbOption("user", HelpText = "Update remote refs along with associated objects.")]
+        public JobsSubOptions JobsVerb { get; set; }
+        [VerbOption("scene", HelpText = "Update remote refs along with associated objects.")]
+        public JobsSubOptions JobsVerb { get; set; }
 
 
         public class SetSubOptions
@@ -55,7 +64,12 @@ namespace dotnet_clara.lib
             [Option('h', "host", HelpText = "Tell the command to automatically stage files.")]
             public bool host { get; set; }
         }
->>>>>>> commandline
+
+        public class JobsSubOptions
+        {
+            [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
+            public string jobId { get; set; }
+        }
     }
 
 }

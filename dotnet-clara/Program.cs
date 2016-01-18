@@ -58,11 +58,25 @@ namespace dotnet_clara
                             Console.WriteLine("[INFO]:{0}:{1}", property.Name, config.GetOneConfigInfo(property.Name));
                     }
                 }
+                if (invokedVerb == "job")
+                {
+                    PropertyInfo[] properties = typeof(Options.JobsSubOptions).GetProperties();
+                    var usage = new StringBuilder();
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.GetValue(invokedVerbInstance) != null)
+                        {                          
+                            usage.Append(clara.jobs.Get((string)property.GetValue(invokedVerbInstance)).Result);
+                        }
+                        Console.WriteLine("[INFO]:{0}", usage);
+                    }
+                }
+
 
             }
             else
             {
-                Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);
+                Console.WriteLine(options.GetUsage());
             }
 
 
