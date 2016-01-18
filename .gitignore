@@ -85,6 +85,7 @@ ipch/
 *.vsp
 *.vspx
 *.sap
+*.suo
 
 # TFS 2012 Local Workspace
 $tf/
@@ -233,5 +234,5 @@ _Pvt_Extensions
 .fake/
 
 # Nuget package files
-.nuspec
-.nupkg
+*.nuspec
+*.nupkg
