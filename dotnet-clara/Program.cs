@@ -21,9 +21,9 @@ namespace dotnet_clara
 
         public Program()
         {
-            
+
             config = new Config();
-            
+
             clara = new lib.Clara(config);
         }
         public async void AsyncTest()
@@ -34,8 +34,8 @@ namespace dotnet_clara
             Stream stream1;
             Task<Stream> getStream1 = clara.scene.Render(sceneId, "{width:1200, height:600}", "{command:\"presets/polarCameraSetup\", data:{radius:100,azimuthAngle:10,polarAngle:20}}");
             int filename = rnd.Next();
-            Stream file1 = File.Create("g:\\"+filename+".png");
-            
+            Stream file1 = File.Create("g:\\" + filename + ".png");
+
             stream1 = await getStream1;
             stream1.CopyTo(file1);
             file1.Close();
@@ -45,11 +45,12 @@ namespace dotnet_clara
         {
 
             Program p = new Program();
+            Console.Write(".Net Clara version 0.2\n");
             while (true)
             {
                 p.config.initializeConfig();
 
-                Console.Write(".Net Clara version 0.2\n");
+                
                 Console.Write(">");
                 string[] args = Console.ReadLine().Split(' ');
                 if (args[0] == "set")
@@ -135,3 +136,5 @@ namespace dotnet_clara
 
 }
 
+Status API Training Shop Blog About Pricing
+© 2016 GitHub, Inc.Terms Privacy Security Contact Help
