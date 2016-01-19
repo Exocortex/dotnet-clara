@@ -63,9 +63,9 @@
     <Compile Include="lib\Options.cs" />
     <Compile Include="lib\Config.cs" />
     <Compile Include="lib\Method.cs" />
-    <Compile Include="lib\resoureces\Jobs.cs" />
-    <Compile Include="lib\resoureces\Scenes.cs" />
-    <Compile Include="lib\resoureces\User.cs" />
+    <Compile Include="lib\resources\Jobs.cs" />
+    <Compile Include="lib\resources\Scenes.cs" />
+    <Compile Include="lib\resources\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

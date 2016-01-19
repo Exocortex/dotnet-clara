@@ -1,10 +1,10 @@
 # Clara.io api bindings for .Net framework
 
 ## Installation 
-You can download the source code, build the project, and thenrun dotnet-clara.exe.
+You can download the source code, build the project, and then run dotnet-clara.exe.
 
 Or you can install dotnet-clara in your project, through NuGet.
-In Visual Studio, open NuGet Package Manage Console, then run command:
+In Visual Studio, open NuGet Package Manager Console, then run command:
 ```bash
 Install-Package dotnet-clara
 ```
@@ -21,7 +21,7 @@ After installing dotnet-clara, include dotnet-clara in your project
 ```c#
 using dotnet_clara;
 using dotnet_clara.lib;
-using dotnet_clara.rescources;
+using dotnet_clara.resources;
 ```
 
 Create a `clara` instance with your api token and username, visit https://clara.io/settings/api for your api token:
@@ -35,18 +35,18 @@ Config config = new Config();
 Clara clara = new Clara(config);
 ```
 
-The parameters for each resource method can be checked in rescoureces classes in the resoureces folder.
-Basically, there are there rescoureces classes `Scenes`, `Jobs` and  `Users`.
-You can access the method of rescoureces by 
+The parameters for each resource method can be checked in resources classes in the resources folder.
+Basically, there are there resources classes `Scenes`, `Jobs` and  `Users`.
+You can access the method of resources by 
 ```c#
-clara.rescource.Method(var input);
+clara.resource.Method(var input);
 ```
 For example:
 ```c#
 clara.jobs.get(jobId);
 clara.scenes.Update(sceneId, "newSceneName");
 ```
-For most methods in `Jobs` `User` and `Scenes` rescources, they return a repsonse of [HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.118).aspx) type.
+For most methods in `Jobs` `User` and `Scenes` rescources, they return a response of [HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.118).aspx) type.
 
 For `Render`  and `Export` of `Scene`, the return data are [Stream](https://msdn.microsoft.com/en-us/library/system.io.stream(v=vs.110).aspx) type. You can save the data to a file.
 
@@ -102,7 +102,7 @@ Configuration file in $HOME. If the configuration file `.clara.json` exists in $
 
 ## Command line overview
 
-Congifguration commands are available from the command line runner.
+Configuration commands are available from the command line runner.
 ```bash
 $ dotnet-clara help
 $ dotnet-clara scenes --get 7a5f12ca-6773-4409-9696-7a65d22520e0
@@ -115,7 +115,7 @@ to `$HOME/.clara.json`:
 $ dotnet-clara set --apiToken your-api-token
 $ dotnet-clara get --username
 ```
-You can call rescource and method through command line:
+You can call resource and method through command line:
 ```bash
 $ dotnet-clara scenes --get sceneId
 ```
@@ -135,7 +135,7 @@ job --[option] <value>
 user --[option] <value>
 [option] : get, update, listScenes, listJobs
 --get <username> --- get user profile
---update <username> <profile> --- update user profiel
+--update <username> <profile> --- update user profile
 --listScenes <username> <query> --- list user's scenes
 --listJobs <username> <query> --- list user's jobs
 -----------------Scene---------------------------
@@ -155,4 +155,5 @@ scene --[option] <value> : get one configuration item
 ## Development
 
 Run the tests in Visual Studio.
+
 
