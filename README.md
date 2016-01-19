@@ -49,7 +49,7 @@ clara.scenes.Update(sceneId, "newSceneName");
 ```
 For most methods in `Jobs` `User` and `Scenes` rescources, they return a response of [HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.118).aspx) type.
 
-For `Render`  and `Export` of `Scene`, the return data are [Stream](https://msdn.microsoft.com/en-us/library/system.io.stream(v=vs.110).aspx) type. You can save the data to a file.
+For `Render`  and `Export` of `Scenes`, the return data are [Stream](https://msdn.microsoft.com/en-us/library/system.io.stream(v=vs.110).aspx) type. You can save the data to a file.
 
 Please check how to handle the return data in the source code.
 ## Available resources and methods
