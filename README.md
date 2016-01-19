@@ -103,10 +103,10 @@ Configuration file in $HOME. If the configuration file `.clara.json` exists in $
 
 ## Command line overview
 
-Configuration commands are available from the command line runner.
+Configuration and method commands are available from the command line runner.
 ```bash
 $ dotnet-clara help
-$ dotnet-clara scenes --get 7a5f12ca-6773-4409-9696-7a65d22520e0
+$ dotnet-clara scenes --get <sceneId>
 $ dotnet-clara set --apiToken <apiToken> --username <username>
 ```
 You can use the clara command line to quickly set/get your configuration data. It will write
