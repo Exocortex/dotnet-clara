@@ -54,24 +54,24 @@ For `Render`  and `Export` of `Scene`, the return data are [Stream](https://msdn
 Please check how to handle the return data in the source code.
 ## Available resources and methods
 
-  * scenes:library <query>                                 List public scenes
-  * scenes:list <query>                                    List your scenes
-  * scenes:create <query>                                  Create a new scene
-  * scenes:update <sceneId> <query>                        Update a scene
-  * scenes:get <sceneId>                                   Get scene data
-  * scenes:delete <sceneId>                                Delete a scene
-  * scenes:clone <sceneId>                                 Clone a scene
-  * scenes:import <sceneId> <fileList>                     Import a file into the scene
-  * scenes:export <sceneId> <extension>                    Export a scene
-  * scenes:render <sceneId> <query> <options> <filePath>   Render an image
-  * scenes:command [options] <sceneId> <plugin> <command>  Run a command
-  * jobs:get <jobId>                                       Get job data
-  * user:get <username>                                    Get User Profile
-  * user:update <username> <query>                         Update user profile
-  * user:listScenes <username> <query>                     List user's scenes
-  * user:listJobs <username> <query>                       List user's jobs
-  * set:[option] <value>                                   Set a configuration value to $HOME/.clara.json
-  * get:[option]                                           Return the current configuration for [option]
+  * scenes:library <query> --- List public scenes
+  * scenes:list <query> --- List your scenes
+  * scenes:create <query> --- Create a new scene
+  * scenes:update <sceneId> <query> ---  Update a scene
+  * scenes:get <sceneId> --- Get scene data
+  * scenes:delete <sceneId> --- Delete a scene
+  * scenes:clone <sceneId> --- Clone a scene
+  * scenes:import <sceneId> <fileList> --- Import a file into the scene
+  * scenes:export <sceneId> <extension> --- Export a scene
+  * scenes:render <sceneId> <query> <options> <filePath> --- Render an image
+  * scenes:command [options] <sceneId> <plugin> <command> --- Run a command
+  * jobs:get <jobId> --- Get job data
+  * user:get <username> --- Get User Profile
+  * user:update <username> <query> --- Update user profile
+  * user:listScenes <username> <query> --- List user's scenes
+  * user:listJobs <username> <query> --- List user's jobs
+  * set:[option] <value> --- Set a configuration value to $HOME/.clara.json
+  * get:[option] --- Return the current configuration for [option]
 
 ## Configuration
 
