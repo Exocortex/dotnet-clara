@@ -2,7 +2,7 @@
 
 ## Installation 
 
-The package will be available in Nuget soon,
+The package will be available in Nuget soon.
 
 ## Quick start
 
@@ -35,8 +35,11 @@ For example:
 clara.jobs.get(jobId);
 clara.scenes.Update(sceneId, "newSceneName");
 ```
+For most methods in `Jobs` `User` and `Scenes` rescources, they return a repsonse of [HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.118).aspx) type.
 
+For `Render`  and `Export` of `Scene`, the return data are [Stream](https://msdn.microsoft.com/en-us/library/system.io.stream(v=vs.110).aspx) type. You can save the data to a file.
 
+Please check how to handle the return data in the source code.
 ## Available resources and methods
 
   * scenes:library <query>                                 List public scenes
@@ -51,12 +54,12 @@ clara.scenes.Update(sceneId, "newSceneName");
   * scenes:render <sceneId> <query> <options> <filePath>   Render an image
   * scenes:command [options] <sceneId> <plugin> <command>  Run a command
   * jobs:get <jobId>                                       Get job data
-  * user:get <username>                                              Get User Profile
-  * user:update <username> <query>                                  Update user profile
-  * user:listScenes <username> <query>                              List user's scenes
-  * user:listJobs <username> <query>                                List user's jobs
-  * set:[option] <value>                                       Set a configuration value to $HOME/.clara.json
-  * get:[option]                                             Return the current configuration for [option]
+  * user:get <username>                                    Get User Profile
+  * user:update <username> <query>                         Update user profile
+  * user:listScenes <username> <query>                     List user's scenes
+  * user:listJobs <username> <query>                       List user's jobs
+  * set:[option] <value>                                   Set a configuration value to $HOME/.clara.json
+  * get:[option]                                           Return the current configuration for [option]
 
 ## Configuration
 
@@ -140,5 +143,5 @@ scene --[option] <value> : get one configuration item
 ```
 ## Development
 
-Run the tests using in Visual Studio:
+Run the tests using in Visual Studio.
 
