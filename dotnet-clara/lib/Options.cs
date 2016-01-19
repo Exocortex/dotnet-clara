@@ -24,33 +24,40 @@ namespace dotnet_clara.lib
             var usage = new StringBuilder();
             usage.AppendLine("dotnet clara v1.0");
             usage.AppendLine("Read README file for more usage instructions...");
-            usage.AppendLine("help : for help" );
-            usage.AppendLine("set --<option> [value] : set one configuration item.");
-            usage.AppendLine("get --<option> [value] : get one configuration item.");
             usage.AppendLine("-----------------Job-----------------------------");
-            usage.AppendLine("job --<option> [value] : get one configuration item.");
-            usage.AppendLine("<option> : get");
-            usage.AppendLine("[value] : jobId");
+            usage.AppendLine("help --- for help" );
+
+            usage.AppendLine("-----------------Configuration-----------------------------");
+            usage.AppendLine("set --[option] <value> --- set configuration data");
+            usage.AppendLine("get --[option] <value> --- get configuration data");
+            usage.AppendLine("[option] : username, apiToken, host ");
+
+            usage.AppendLine("-----------------Job-----------------------------");
+            usage.AppendLine("job --[option] <value>");
+            usage.AppendLine("[option] : get ");
+            usage.AppendLine("--get jobId --- get job data ");
+
             usage.AppendLine("-----------------User----------------------------");
-            usage.AppendLine("user --<option> [value] : get one configuration item.");
-            usage.AppendLine("<option> : get, update, listScenes, listJobs");
-            usage.AppendLine("--get [value] : username");
-            usage.AppendLine("--update [value, value] : username profile");
-            usage.AppendLine("--listScenes [value, value] : username query");
-            usage.AppendLine("--listJobs [value, value] : username query");
+            usage.AppendLine("user --[option] <value>");
+            usage.AppendLine("[option] : get, update, listScenes, listJobs");
+            usage.AppendLine("--get username --- get user profile");
+            usage.AppendLine("--update username profile --- update user profiel");
+            usage.AppendLine("--listScenes username query --- list user's scenes");
+            usage.AppendLine("--listJobs username query --- list user's jobs");
+
             usage.AppendLine("-----------------Scene---------------------------");
-            usage.AppendLine("scene --<option> [value] : get one configuration item.");
-            usage.AppendLine("<option> : get, update, library, create, delete, clone, export, import, command, render");
-            usage.AppendLine("--get [value] : sceneId");
-            usage.AppendLine("--update [value, value] : sceneId sceneName");
-            usage.AppendLine("--library [value] : query");
-            usage.AppendLine("--create");
-            usage.AppendLine("--delete [value] : sceneId");
-            usage.AppendLine("--clone [value] : sceneId");
-            usage.AppendLine("--export [value, value, value] : sceneId extension filePath");
-            usage.AppendLine("--import [value, value] : sceneId fileList");
-            usage.AppendLine("--command [value, value] : sceneId commandOptions");
-            usage.AppendLine("--render [value, value, value, value] : sceneId query options filePath");
+            usage.AppendLine("scene --[option] <value> : get one configuration item.");
+            usage.AppendLine("[option] : get, update, library, create, delete, clone, export, import, command, render");
+            usage.AppendLine("--get sceneId --- get a scene data");
+            usage.AppendLine("--update sceneId sceneName --- update a scene");
+            usage.AppendLine("--library query --- list public scenes");
+            usage.AppendLine("--create --- create a new scene");
+            usage.AppendLine("--delete sceneId --- delete a scene");
+            usage.AppendLine("--clone sceneId --- clone a scene");
+            usage.AppendLine("--export sceneId extension filePath --- export a scene");
+            usage.AppendLine("--import sceneId fileList --- import a file into the scene");
+            usage.AppendLine("--command sceneId commandOptions --- run a command");
+            usage.AppendLine("--render sceneId query options filePath --- render an image");
 
             return usage.ToString();
         }

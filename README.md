@@ -2,96 +2,80 @@
 
 ## Installation 
 
-
+The package will be available in Nuget soon,
 
 ## Quick start
 
 ```bash
-$ clara set apiToken <api-token>
-$ clara set username <username>
+$ dotnet-clara set --apiToken <api-token>
+$ dotnet-clara set --username <username>
 ```
 
 ## API Overview
 
-Create a `clara` instance with your api token and username:
+Create a `clara` instance with your api token and username, visit https://clara.io/settings/api for your api token:
 
 ```c#
-// Visit https://clara.io/settings/api for your api token
-Clara clara = new Clara(username, apiToken)
+Clara clara = new Clara(username, apiToken, host)
+```
+or you can create a `clara` instance with default configuration
+```c#
+Config config = new Config();
+Clara clara = new Clara(config);
 ```
 
+The parameters for each resource method can be checked in rescoureces classes in the resoureces folder.
+Basically, there are there rescoureces classes `Scenes`, `Jobs` and  `Users`.
+You can access the method of rescoureces by 
 ```c#
-clara.scenes.list().then(function(scenes) {
-}).catch(function(err) {
-});
+clara.rescource.Method(var input);
 ```
-
-The parameters for each resource method can be checked in Scenes.cs.
-
+For example:
 ```c#
+clara.jobs.get(jobId);
 clara.scenes.Update(sceneId, "newSceneName");
-clara.scenes.Create();
 ```
 
-## Command line overview
-
-All commands are available from the command line runner as well.
-
-```bash
-$ clara --help
-$ clara scenes:get --help
-$ clara --apiToken <apiToken> --username <username> scenes:get <sceneId>
-```
 
 ## Available resources and methods
 
-  * scenes:library [options]                               List public scenes
-  * scenes:list [options]                                  List your scenes
-  * scenes:create [options]                                Create a new scene
-  * scenes:update [options] <sceneId>                      Update a scene
+  * scenes:library <query>                                 List public scenes
+  * scenes:list <query>                                    List your scenes
+  * scenes:create <query>                                  Create a new scene
+  * scenes:update <sceneId> <query>                        Update a scene
   * scenes:get <sceneId>                                   Get scene data
   * scenes:delete <sceneId>                                Delete a scene
   * scenes:clone <sceneId>                                 Clone a scene
-  * scenes:import [options] <sceneId>                      Import a file into the scene
+  * scenes:import <sceneId> <fileList>                     Import a file into the scene
   * scenes:export <sceneId> <extension>                    Export a scene
-  * scenes:render [options] <sceneId>                      Render an image
+  * scenes:render <sceneId> <query> <options> <filePath>   Render an image
   * scenes:command [options] <sceneId> <plugin> <command>  Run a command
-  * jobs:list [options]                                    List your jobs
   * jobs:get <jobId>                                       Get job data
-  * user:get                                               Get User Profile
-  * user:update [options]                                  Update user profile
-  * webhooks:list [options]                                List webhooks
-  * webhooks:create [options]                              Create a webhook
-  * webhooks:update [options] <webhookId>                  Update a webhook
-  * set <key> <val>                                        Set a configuration value to $HOME/.clara.json
-  * get <key>                                              Return the current configuration for <key>
+  * user:get <username>                                              Get User Profile
+  * user:update <username> <query>                                  Update user profile
+  * user:listScenes <username> <query>                              List user's scenes
+  * user:listJobs <username> <query>                                List user's jobs
+  * set:[option] <value>                                       Set a configuration value to $HOME/.clara.json
+  * get:[option]                                             Return the current configuration for [option]
 
 ## Configuration
 
-There are several ways to set up the configuration data, from highest to lowest priority:
+There are several ways to set up the configuration data command line or api:
 
 1. Pass directly (through function call, or command line).
 
 ```bash
-clara --apiToken <apiToken> --username <username> scenes:get <sceneId>
+dotnet-clara set --apiToken <apiToken> --username <username> 
 ```
-Or with api:
+2. Or with api:
 
-```javascript
-var clara = require('clara')({apiToken: '...', username: '...'});
-```
-
-2. Environment variables.
-
-Any parameter can be passed through an environment variable, prefixed with `clara_`:
-
-```bash
-clara_apiToken=api-token-here clara_username=username clara scenes:get <uuid>
+```c#
+Clara clara = new Clara(username, apiToken, host)
 ```
 
 3. Configuration file in current working directory
 
-A json file named `.clara.json` can hold configuration data:
+ A json file named `.clara.json` can hold configuration data:
 ```json
 {
   "apiToken": "api-token-here",
@@ -100,23 +84,60 @@ A json file named `.clara.json` can hold configuration data:
   "basePath":"/api"
 }
 ```
+Configuration file in $HOME. If the configuration file `.clara.json` exists in $HOME, it will be used.
 
-4. Configuration file in $HOME
+## Command line overview
 
-If the configuration file `.clara.json` exists in $HOME, it will be used.
-
-###  clara set, clara get
-
+Congifguration commands are available from the command line runner.
+```bash
+$ dotnet-clara help
+$ dotnet-clara scenes --get 7a5f12ca-6773-4409-9696-7a65d22520e0
+$ dotnet-clara set --apiToken <apiToken> --username <username>
+```
 You can use the clara command line to quickly set/get your configuration data. It will write
 to `$HOME/.clara.json`:
 
 ```bash
-$ clara set apiToken your-api-token
-$ clara set username your-username
-$ clara scenes:get scene-uuid
+$ dotnet-clara set --apiToken your-api-token
+$ dotnet-clara get --username
 ```
-
-
+You can call rescource and method through command line:
+```bash
+$ dotnet-clara scenes --get sceneId
+```
+## Available resources and methods
+```
+-----------------Job-----------------------------
+"help --- for help
+-----------------Configuration-----------------------------
+set --[option] <value> --- set configuration data
+get --[option] <value> --- get configuration data
+[option] : username, apiToken, host 
+-----------------Job-----------------------------
+job --[option] <value>
+[option] : get 
+--get <jobId> --- get job data 
+-----------------User----------------------------
+user --[option] <value>
+[option] : get, update, listScenes, listJobs
+--get <username> --- get user profile
+--update <username> <profile> --- update user profiel
+--listScenes <username> <query> --- list user's scenes
+--listJobs <username> <query> --- list user's jobs
+-----------------Scene---------------------------
+scene --[option] <value> : get one configuration item
+[option] : get, update, library, create, delete, clone, export, import, command, render
+--get <sceneId> --- get a scene data
+--update <sceneId> <sceneName> --- update a scene
+--library <query> --- list public scenes
+--create --- create a new scene
+--delete <sceneId> --- delete a scene
+--clone <sceneId> --- clone a scene
+--export <sceneId> <extension> <filePath> --- export a scene
+--import <sceneId> <fileList> --- import a file into the scene
+--command <sceneId> <commandOptions> --- run a command
+--render <sceneId> <query> <options> <filePath> --- render an image
+```
 ## Development
 
 Run the tests using in Visual Studio:
