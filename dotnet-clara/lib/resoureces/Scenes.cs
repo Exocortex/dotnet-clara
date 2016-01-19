@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
-using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
