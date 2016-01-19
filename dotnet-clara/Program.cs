@@ -25,14 +25,15 @@ namespace dotnet_clara
             Config config = new Config();
             lib.Clara clara = new lib.Clara(config);
             var options = new Options();
-
+            //var resource = args[0];
+            //string[] newArgs = new string[args.Length-1];
             if (CommandLine.Parser.Default.ParseArguments(args, options,
-              (verb, subOptions) =>
+              (verb, subVerbs) =>
               {
                   // if parsing succeeds the verb name and correct instance
                   // will be passed to onVerbCommand delegate (string,object)
                   invokedVerb = verb;
-                  invokedVerbInstance = subOptions;
+                  invokedVerbInstance = subVerbs;
               }))
             {
                 if (invokedVerb == "set")
@@ -60,16 +61,41 @@ namespace dotnet_clara
                 }
                 if (invokedVerb == "job")
                 {
-                    PropertyInfo[] properties = typeof(Options.JobsSubOptions).GetProperties();
+                    PropertyInfo[] properties = typeof(Options.JobSubOptions).GetProperties();
                     var usage = new StringBuilder();
                     foreach (PropertyInfo property in properties)
                     {
                         if (property.GetValue(invokedVerbInstance) != null)
-                        {                          
-                            usage.Append(clara.jobs.Get((string)property.GetValue(invokedVerbInstance)).Result);
+                        {
+                            HttpResponseMessage resp = clara.jobs.Get((string)property.GetValue(invokedVerbInstance)).Result;
+                            StreamReader stream = new StreamReader(resp.Content.ReadAsStreamAsync().Result);
+                            string str = stream.ReadToEnd();
+                            usage.Append(str);
                         }
                         Console.WriteLine("[INFO]:{0}", usage);
                     }
+                }
+                if (invokedVerb == "user")
+                {
+                    PropertyInfo[] properties = typeof(Options.UserSubOptions).GetProperties();
+                    var usage = new StringBuilder();
+                    HttpResponseMessage resp = null;
+
+
+
+
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.GetValue(invokedVerbInstance) != null)
+                        {
+                            resp = clara.user.Get((string)property.GetValue(invokedVerbInstance)).Result;
+                        }
+                    }
+
+                    StreamReader stream = new StreamReader(resp.Content.ReadAsStreamAsync().Result);
+                    string str = stream.ReadToEnd();
+                    usage.Append(str);
+                    Console.WriteLine("[INFO]:{0}", usage);
                 }
 
 

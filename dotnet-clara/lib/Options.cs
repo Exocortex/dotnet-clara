@@ -12,14 +12,15 @@ namespace dotnet_clara.lib
     {
         public Options()
         {
-            // Since we create this instance the parser will not overwrite it
             SetVerb = new SetSubOptions();
+            GetVerb = new GetSubOptions();
+            JobVerb = new JobSubOptions();
+            UserVerb = new UserSubOptions();
+            SceneVerb = new SceneSubOptions();
         }
         [HelpOption]
         public string GetUsage()
         {
-            // this without using CommandLine.Text
-            //  or using HelpText.AutoBuild
             var usage = new StringBuilder();
             usage.AppendLine("dotnet clara v1.0");
             usage.AppendLine("Read README file for more usage instructions...");
@@ -31,41 +32,55 @@ namespace dotnet_clara.lib
 
         [VerbOption("set", HelpText = "Record changes to the repository.")]
         public SetSubOptions SetVerb { get; set; }
-
         [VerbOption("get", HelpText = "Update remote refs along with associated objects.")]
-        public GetSubOptions AddVerb { get; set; }
+        public GetSubOptions GetVerb { get; set; }
 
         [VerbOption("job", HelpText = "Update remote refs along with associated objects.")]
-        public JobsSubOptions JobsVerb { get; set; }
+        public JobSubOptions JobVerb { get; set; }
         [VerbOption("user", HelpText = "Update remote refs along with associated objects.")]
-        public JobsSubOptions JobsVerb { get; set; }
+        public UserSubOptions UserVerb { get; set; }
         [VerbOption("scene", HelpText = "Update remote refs along with associated objects.")]
-        public JobsSubOptions JobsVerb { get; set; }
+        public SceneSubOptions SceneVerb { get; set; }
 
 
         public class SetSubOptions
         {
-            [Option('u',"username", HelpText = "Tell the command to automatically stage files.")]
+            [Option('u', "username", HelpText = "Tell the command to automatically stage files.")]
             public string username { get; set; }
-            // Remainder omitted
-            [Option('a',"apiToken", HelpText = "Tell the command to automatically stage files.")]
+            [Option('a', "apiToken", HelpText = "Tell the command to automatically stage files.")]
             public string apiToken { get; set; }
-            [Option('h',"host", HelpText = "Tell the command to automatically stage files.")]
+            [Option('h', "host", HelpText = "Tell the command to automatically stage files.")]
             public string host { get; set; }
         }
+
 
         public class GetSubOptions
         {
             [Option('u', "username", HelpText = "Tell the command to automatically stage files.")]
             public bool username { get; set; }
-            // Remainder omitted
             [Option('a', "apiToken", HelpText = "Tell the command to automatically stage files.")]
             public bool apiToken { get; set; }
             [Option('h', "host", HelpText = "Tell the command to automatically stage files.")]
             public bool host { get; set; }
         }
 
-        public class JobsSubOptions
+        public class JobSubOptions
+        {
+            [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
+            public string jobId { get; set; }
+        }
+        public class UserSubOptions
+        {
+            [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
+            public string username { get; set; }
+            [OptionArray('u', "update", HelpText = "Tell the command to automatically stage files.")]
+            public string[] updateQuery { get; set; }
+            [OptionArray("listScenes", HelpText = "Tell the command to automatically stage files.")]
+            public string[] listScenesQuery { get; set; }
+            [OptionArray("listJobs", HelpText = "Tell the command to automatically stage files.")]
+            public string[] listJobsQuery { get; set; }
+        }
+        public class SceneSubOptions
         {
             [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
             public string jobId { get; set; }

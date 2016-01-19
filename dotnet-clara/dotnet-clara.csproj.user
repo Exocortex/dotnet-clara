@@ -2,6 +2,6 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Project</StartAction>
-    <StartArguments>jobs --set 99658eed-538c-460e-8dbb-d749075f8612</StartArguments>
+    <StartArguments>user -u godlzr query</StartArguments>
   </PropertyGroup>
 </Project>

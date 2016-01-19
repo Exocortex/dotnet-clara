@@ -32,7 +32,12 @@ namespace dotnet_clara.lib.resoureces
 
         public class Profile
         {
-            ///?????
+            public string name { get; set; }
+            public string jobTitle { get; set; }
+            public string company { get; set; }
+            public string city { get; set; }
+            public string country { get; set; }
+            public string website { get; set; }
         }
         //Get user profile
         public async Task<HttpResponseMessage> Get(string username)
