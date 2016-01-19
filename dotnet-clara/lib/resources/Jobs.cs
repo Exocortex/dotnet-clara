@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace dotnet_clara.lib.resoureces
+namespace dotnet_clara.lib.resources
 {
     public class Jobs
     {

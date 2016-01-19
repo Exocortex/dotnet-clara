@@ -12,7 +12,7 @@ using System.Drawing;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using dotnet_clara.lib.resoureces;
+using dotnet_clara.lib.resources;
 
 namespace dotnet_clara.lib
 {

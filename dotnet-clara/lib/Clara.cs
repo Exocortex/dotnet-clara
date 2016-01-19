@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using dotnet_clara.lib.resoureces;
+using dotnet_clara.lib.resources;
 
 namespace dotnet_clara.lib
 {

@@ -11,7 +11,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace dotnet_clara.lib.resoureces
+namespace dotnet_clara.lib.resources
 {
     public class Scenes
     {
