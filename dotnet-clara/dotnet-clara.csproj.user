@@ -2,6 +2,6 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Project</StartAction>
-    <StartArguments>user -u godlzr query</StartArguments>
+    <StartArguments>scene --render 825da7c3-7c4a-4476-b144-8dc65c0d4aea {} {} g:\render.png</StartArguments>
   </PropertyGroup>
 </Project>

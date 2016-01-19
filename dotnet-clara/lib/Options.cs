@@ -27,6 +27,31 @@ namespace dotnet_clara.lib
             usage.AppendLine("help : for help" );
             usage.AppendLine("set --<option> [value] : set one configuration item.");
             usage.AppendLine("get --<option> [value] : get one configuration item.");
+            usage.AppendLine("-----------------Job-----------------------------");
+            usage.AppendLine("job --<option> [value] : get one configuration item.");
+            usage.AppendLine("<option> : get");
+            usage.AppendLine("[value] : jobId");
+            usage.AppendLine("-----------------User----------------------------");
+            usage.AppendLine("user --<option> [value] : get one configuration item.");
+            usage.AppendLine("<option> : get, update, listScenes, listJobs");
+            usage.AppendLine("--get [value] : username");
+            usage.AppendLine("--update [value, value] : username profile");
+            usage.AppendLine("--listScenes [value, value] : username query");
+            usage.AppendLine("--listJobs [value, value] : username query");
+            usage.AppendLine("-----------------Scene---------------------------");
+            usage.AppendLine("scene --<option> [value] : get one configuration item.");
+            usage.AppendLine("<option> : get, update, library, create, delete, clone, export, import, command, render");
+            usage.AppendLine("--get [value] : sceneId");
+            usage.AppendLine("--update [value, value] : sceneId sceneName");
+            usage.AppendLine("--library [value] : query");
+            usage.AppendLine("--create");
+            usage.AppendLine("--delete [value] : sceneId");
+            usage.AppendLine("--clone [value] : sceneId");
+            usage.AppendLine("--export [value, value, value] : sceneId extension filePath");
+            usage.AppendLine("--import [value, value] : sceneId fileList");
+            usage.AppendLine("--command [value, value] : sceneId commandOptions");
+            usage.AppendLine("--render [value, value, value, value] : sceneId query options filePath");
+
             return usage.ToString();
         }
 
@@ -45,35 +70,35 @@ namespace dotnet_clara.lib
 
         public class SetSubOptions
         {
-            [Option('u', "username", HelpText = "Tell the command to automatically stage files.")]
+            [Option("username", HelpText = "Tell the command to automatically stage files.")]
             public string username { get; set; }
-            [Option('a', "apiToken", HelpText = "Tell the command to automatically stage files.")]
+            [Option("apiToken", HelpText = "Tell the command to automatically stage files.")]
             public string apiToken { get; set; }
-            [Option('h', "host", HelpText = "Tell the command to automatically stage files.")]
+            [Option("host", HelpText = "Tell the command to automatically stage files.")]
             public string host { get; set; }
         }
 
 
         public class GetSubOptions
         {
-            [Option('u', "username", HelpText = "Tell the command to automatically stage files.")]
+            [Option("username", HelpText = "Tell the command to automatically stage files.")]
             public bool username { get; set; }
-            [Option('a', "apiToken", HelpText = "Tell the command to automatically stage files.")]
+            [Option("apiToken", HelpText = "Tell the command to automatically stage files.")]
             public bool apiToken { get; set; }
-            [Option('h', "host", HelpText = "Tell the command to automatically stage files.")]
+            [Option("host", HelpText = "Tell the command to automatically stage files.")]
             public bool host { get; set; }
         }
 
         public class JobSubOptions
         {
-            [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
+            [Option("get", HelpText = "Tell the command to automatically stage files.")]
             public string jobId { get; set; }
         }
         public class UserSubOptions
         {
-            [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
+            [Option("get", HelpText = "Tell the command to automatically stage files.")]
             public string username { get; set; }
-            [OptionArray('u', "update", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("update", HelpText = "Tell the command to automatically stage files.")]
             public string[] updateQuery { get; set; }
             [OptionArray("listScenes", HelpText = "Tell the command to automatically stage files.")]
             public string[] listScenesQuery { get; set; }
@@ -82,8 +107,26 @@ namespace dotnet_clara.lib
         }
         public class SceneSubOptions
         {
-            [Option('g', "get", HelpText = "Tell the command to automatically stage files.")]
-            public string jobId { get; set; }
+            [Option("library", HelpText = "Tell the command to automatically stage files.")]
+            public string libraryQuery { get; set; }
+            [Option("get", HelpText = "Tell the command to automatically stage files.")]
+            public string getSceneId { get; set; }
+            [OptionArray("update", HelpText = "Tell the command to automatically stage files.")]
+            public string[] updateQuery { get; set; }
+            [Option("create", HelpText = "Tell the command to automatically stage files.")]
+            public bool create { get; set; }
+            [Option("clone", HelpText = "Tell the command to automatically stage files.")]
+            public string cloneSceneId { get; set; }
+            [Option("delete", HelpText = "Tell the command to automatically stage files.")]
+            public string deleteSceneId { get; set; }
+            [OptionArray("export", HelpText = "Tell the command to automatically stage files.")]
+            public string[] exportParams { get; set; }
+            [OptionArray("import", HelpText = "Tell the command to automatically stage files.")]
+            public string[] importParams { get; set; }
+            [OptionArray("command", HelpText = "Tell the command to automatically stage files.")]
+            public string[] commandParams { get; set; }
+            [OptionArray('r', "render", HelpText = "Tell the command to automatically stage files.")]
+            public string[] renderParams { get; set; }
         }
     }
 
