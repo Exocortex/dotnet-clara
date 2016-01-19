@@ -35,29 +35,29 @@ namespace dotnet_clara.lib
             usage.AppendLine("-----------------Job-----------------------------");
             usage.AppendLine("job --[option] <value>");
             usage.AppendLine("[option] : get ");
-            usage.AppendLine("--get jobId --- get job data ");
+            usage.AppendLine("--get <jobId> --- get job data ");
 
             usage.AppendLine("-----------------User----------------------------");
             usage.AppendLine("user --[option] <value>");
             usage.AppendLine("[option] : get, update, listScenes, listJobs");
-            usage.AppendLine("--get username --- get user profile");
-            usage.AppendLine("--update username profile --- update user profiel");
-            usage.AppendLine("--listScenes username query --- list user's scenes");
-            usage.AppendLine("--listJobs username query --- list user's jobs");
+            usage.AppendLine("--get <username> --- get user profile");
+            usage.AppendLine("--update <username> <profile> --- update user profiel");
+            usage.AppendLine("--listScenes <username> <query> --- list user's scenes");
+            usage.AppendLine("--listJobs <username> <query> --- list user's jobs");
 
             usage.AppendLine("-----------------Scene---------------------------");
             usage.AppendLine("scene --[option] <value> : get one configuration item.");
             usage.AppendLine("[option] : get, update, library, create, delete, clone, export, import, command, render");
-            usage.AppendLine("--get sceneId --- get a scene data");
-            usage.AppendLine("--update sceneId sceneName --- update a scene");
-            usage.AppendLine("--library query --- list public scenes");
+            usage.AppendLine("--get <sceneId> --- get a scene data");
+            usage.AppendLine("--update <sceneId> <sceneName> --- update a scene");
+            usage.AppendLine("--library <query> --- list public scenes");
             usage.AppendLine("--create --- create a new scene");
-            usage.AppendLine("--delete sceneId --- delete a scene");
-            usage.AppendLine("--clone sceneId --- clone a scene");
-            usage.AppendLine("--export sceneId extension filePath --- export a scene");
-            usage.AppendLine("--import sceneId fileList --- import a file into the scene");
-            usage.AppendLine("--command sceneId commandOptions --- run a command");
-            usage.AppendLine("--render sceneId query options filePath --- render an image");
+            usage.AppendLine("--delete <sceneId> --- delete a scene");
+            usage.AppendLine("--clone <sceneId> --- clone a scene");
+            usage.AppendLine("--export <sceneId> <extension> <filePath> --- export a scene");
+            usage.AppendLine("--import <sceneId> <fileList> --- import a file into the scene");
+            usage.AppendLine("--command <sceneId> <commandOptions> --- run a command");
+            usage.AppendLine("--render <sceneId> <query> <options> <filePath> --- render an image");
 
             return usage.ToString();
         }

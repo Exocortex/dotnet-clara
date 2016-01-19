@@ -2,7 +2,6 @@ c:\users\zli\documents\visual studio 2015\Projects\dotnet-clara\dotnet-clara\bin
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\dotnet-clara.exe.config
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\dotnet-clara.exe
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\dotnet-clara.pdb
-G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\obj\Debug\dotnet-clara.csprojResolveAssemblyReference.cache
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\obj\Debug\dotnet-clara.exe
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\obj\Debug\dotnet-clara.pdb
 G:\My_Work_Space\Project\dotnet-clara\dotnet-clara\bin\Debug\RestSharp.dll

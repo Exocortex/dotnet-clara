@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace dotnet_clara.lib.resoureces
 {
-    public  class Jobs
+    public class Jobs
     {
         private Method method;
 

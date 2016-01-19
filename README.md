@@ -1,8 +1,13 @@
 # Clara.io api bindings for .Net framework
 
 ## Installation 
+You can download the source code of whole project, and run dotnet-clara.exe.
 
-The package will be available in Nuget soon.
+Or install dotnet-clara in your project, through NuGet.
+In Visual Studio, open NuGet Package Manage Console, then run command:
+```bash
+Install-Package dotnet-clara
+```
 
 ## Quick start
 
@@ -12,6 +17,12 @@ $ dotnet-clara set --username <username>
 ```
 
 ## API Overview
+After install dotnet-clara, include dotnet-clara in your project
+```c#
+using dotnet_clara;
+using dotnet_clara.lib;
+using dotnet_clara.rescources;
+```
 
 Create a `clara` instance with your api token and username, visit https://clara.io/settings/api for your api token:
 

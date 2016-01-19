@@ -7,7 +7,7 @@ using dotnet_clara.lib.resoureces;
 
 namespace dotnet_clara.lib
 {
-    class Clara
+    public class Clara
     {
         public Scenes scene;
         public Jobs jobs;

@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace dotnet_clara.lib
 {
-    class Config
+    public class Config
     {
         public ConfigInfo defaultConfig;
 
