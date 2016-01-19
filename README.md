@@ -13,7 +13,8 @@ Install-Package dotnet-clara
 
 ```bash
 $ dotnet-clara set --apiToken <api-token>
-$ dotnet-clara set --username <username>
+$ dotnet-clara get --username
+$ dotnet-clara scene --get <sceneId>
 ```
 
 ## API Overview
