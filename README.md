@@ -113,12 +113,12 @@ You can use the clara command line to quickly set/get your configuration data. I
 to `$HOME/.clara.json`:
 
 ```bash
-$ dotnet-clara set --apiToken your-api-token
+$ dotnet-clara set --apiToken <your-api-token>
 $ dotnet-clara get --username
 ```
 You can call resource and method through command line:
 ```bash
-$ dotnet-clara scenes --get sceneId
+$ dotnet-clara scenes --get <sceneId>
 ```
 ## Available resources and methods
 ```
