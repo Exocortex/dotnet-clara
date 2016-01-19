@@ -143,5 +143,5 @@ scene --[option] <value> : get one configuration item
 ```
 ## Development
 
-Run the tests using in Visual Studio.
+Run the tests in Visual Studio.
 
