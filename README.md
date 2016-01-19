@@ -3,7 +3,7 @@
 ## Installation 
 You can download the source code of whole project, and run dotnet-clara.exe.
 
-Or install dotnet-clara in your project, through NuGet.
+Or you can install dotnet-clara in your project, through NuGet.
 In Visual Studio, open NuGet Package Manage Console, then run command:
 ```bash
 Install-Package dotnet-clara
@@ -17,7 +17,7 @@ $ dotnet-clara set --username <username>
 ```
 
 ## API Overview
-After install dotnet-clara, include dotnet-clara in your project
+After installing dotnet-clara, include dotnet-clara in your project
 ```c#
 using dotnet_clara;
 using dotnet_clara.lib;
