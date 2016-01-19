@@ -1,7 +1,7 @@
 # Clara.io api bindings for .Net framework
 
 ## Installation 
-You can download the source code of whole project, and run dotnet-clara.exe.
+You can download the source code, build the project, and thenrun dotnet-clara.exe.
 
 Or you can install dotnet-clara in your project, through NuGet.
 In Visual Studio, open NuGet Package Manage Console, then run command:
