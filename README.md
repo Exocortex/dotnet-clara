@@ -49,7 +49,7 @@ clara.scenes.Update(sceneId, "newSceneName");
 ```
 For most methods in `Jobs` `User` and `Scenes` rescources, they return a response of [HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.118).aspx) type.
 
-For `Render`  and `Export` of `Scene`, the return data are [Stream](https://msdn.microsoft.com/en-us/library/system.io.stream(v=vs.110).aspx) type. You can save the data to a file.
+For `Render`  and `Export` of `Scenes`, the return data are [Stream](https://msdn.microsoft.com/en-us/library/system.io.stream(v=vs.110).aspx) type. You can save the data to a file.
 
 Please check how to handle the return data in the source code.
 ## Available resources and methods
@@ -103,22 +103,22 @@ Configuration file in $HOME. If the configuration file `.clara.json` exists in $
 
 ## Command line overview
 
-Configuration commands are available from the command line runner.
+Configuration and method commands are available from the command line runner.
 ```bash
 $ dotnet-clara help
-$ dotnet-clara scenes --get 7a5f12ca-6773-4409-9696-7a65d22520e0
+$ dotnet-clara scenes --get <sceneId>
 $ dotnet-clara set --apiToken <apiToken> --username <username>
 ```
 You can use the clara command line to quickly set/get your configuration data. It will write
 to `$HOME/.clara.json`:
 
 ```bash
-$ dotnet-clara set --apiToken your-api-token
+$ dotnet-clara set --apiToken <your-api-token>
 $ dotnet-clara get --username
 ```
 You can call resource and method through command line:
 ```bash
-$ dotnet-clara scenes --get sceneId
+$ dotnet-clara scenes --get <sceneId>
 ```
 ## Available resources and methods
 ```
