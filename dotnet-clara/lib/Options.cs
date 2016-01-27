@@ -58,83 +58,83 @@ namespace dotnet_clara.lib
             usage.AppendLine("--import <sceneId> <fileList> --- import a file into the scene");
             usage.AppendLine("--command <sceneId> <commandOptions> --- run a command");
             usage.AppendLine("--render <sceneId> <query> <options> <filePath> --- render an image");
-            usage.AppendLine("--thumbnail <sceneId> <query> <options> <filePath> --- render an image");
+            usage.AppendLine("--thumbnail <sceneId> <filePath> --- get the thumbnail of a secne");
             return usage.ToString();
         }
 
-        [VerbOption("set", HelpText = "Record changes to the repository.")]
+        [VerbOption("set", HelpText = "Set the clara configuration.")]
         public SetSubOptions SetVerb { get; set; }
-        [VerbOption("get", HelpText = "Update remote refs along with associated objects.")]
+        [VerbOption("get", HelpText = "Get the clara configuration.")]
         public GetSubOptions GetVerb { get; set; }
 
-        [VerbOption("job", HelpText = "Update remote refs along with associated objects.")]
+        [VerbOption("job", HelpText = "Access the JOB resource of clara.")]
         public JobSubOptions JobVerb { get; set; }
-        [VerbOption("user", HelpText = "Update remote refs along with associated objects.")]
+        [VerbOption("user", HelpText = "Access the USER resource of clara.")]
         public UserSubOptions UserVerb { get; set; }
-        [VerbOption("scene", HelpText = "Update remote refs along with associated objects.")]
+        [VerbOption("scene", HelpText = "Access the SCENE resource of clara.")]
         public SceneSubOptions SceneVerb { get; set; }
 
 
         public class SetSubOptions
         {
-            [Option("username", HelpText = "Tell the command to automatically stage files.")]
+            [Option("username", HelpText = "The USERNAME in the clara configuration.")]
             public string username { get; set; }
-            [Option("apiToken", HelpText = "Tell the command to automatically stage files.")]
+            [Option("apiToken", HelpText = "The APITOKEN in the clara configuration.")]
             public string apiToken { get; set; }
-            [Option("host", HelpText = "Tell the command to automatically stage files.")]
+            [Option("host", HelpText = "The HOST in the clara configuration.")]
             public string host { get; set; }
         }
 
 
         public class GetSubOptions
         {
-            [Option("username", HelpText = "Tell the command to automatically stage files.")]
+            [Option("username", HelpText = "The USERNAME in the clara configuration.")]
             public bool username { get; set; }
-            [Option("apiToken", HelpText = "Tell the command to automatically stage files.")]
+            [Option("apiToken", HelpText = "The APITOKEN in the clara configuration.")]
             public bool apiToken { get; set; }
-            [Option("host", HelpText = "Tell the command to automatically stage files.")]
+            [Option("host", HelpText = "The HOST in the clara configuration.")]
             public bool host { get; set; }
         }
 
         public class JobSubOptions
         {
-            [Option("get", HelpText = "Tell the command to automatically stage files.")]
+            [Option("get", HelpText = "Get the job data.")]
             public string jobId { get; set; }
         }
         public class UserSubOptions
         {
-            [Option("get", HelpText = "Tell the command to automatically stage files.")]
+            [Option("get", HelpText = "Get the user data.")]
             public string username { get; set; }
-            [OptionArray("update", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("update", HelpText = "Update the user profile.")]
             public string[] updateQuery { get; set; }
-            [OptionArray("listScenes", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("listScenes", HelpText = "List the user's scenes.")]
             public string[] listScenesQuery { get; set; }
-            [OptionArray("listJobs", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("listJobs", HelpText = "List the user's jobs.")]
             public string[] listJobsQuery { get; set; }
         }
         public class SceneSubOptions
         {
-            [Option("library", HelpText = "Tell the command to automatically stage files.")]
+            [Option("library", HelpText = "List the scenes in the library.")]
             public string libraryQuery { get; set; }
-            [Option("get", HelpText = "Tell the command to automatically stage files.")]
+            [Option("get", HelpText = "Get the scene data.")]
             public string getSceneId { get; set; }
-            [OptionArray("update", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("update", HelpText = "Update the scene data.")]
             public string[] updateQuery { get; set; }
-            [Option("create", HelpText = "Tell the command to automatically stage files.")]
+            [Option("create", HelpText = "Create a new scene.")]
             public bool create { get; set; }
-            [Option("clone", HelpText = "Tell the command to automatically stage files.")]
+            [Option("clone", HelpText = "Clone a existing scene.")]
             public string cloneSceneId { get; set; }
-            [Option("delete", HelpText = "Tell the command to automatically stage files.")]
+            [Option("delete", HelpText = "Delete a scene.")]
             public string deleteSceneId { get; set; }
-            [OptionArray("export", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("export", HelpText = "Export the model from a scene with specified format.")]
             public string[] exportParams { get; set; }
-            [OptionArray("import", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("import", HelpText = "Import files into a scene.")]
             public string[] importParams { get; set; }
-            [OptionArray("command", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray("command", HelpText = "Excute a clara command.")]
             public string[] commandParams { get; set; }
-            [OptionArray('r', "render", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray('r', "render", HelpText = "Render a image of a scene.")]
             public string[] renderParams { get; set; }
-            [OptionArray('t', "thumbnail", HelpText = "Tell the command to automatically stage files.")]
+            [OptionArray('t', "thumbnail", HelpText = "Get the thumbnail of a scene.")]
             public string[] thumbnailParams { get; set; }
         }
     }
