@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using dotnet_clara.lib.resoureces;
+using dotnet_clara.lib.resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;

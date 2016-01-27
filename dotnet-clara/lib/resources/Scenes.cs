@@ -83,6 +83,17 @@ namespace dotnet_clara.lib.resources
 
             return await resp.Content.ReadAsStreamAsync();
         }
+        //Return the thumbnail of the scene
+        public async Task<Stream> Thumbnail(string sceneId)
+        {
+            string requestUrl = sceneId + "/thumbnail.jpg";
+
+            Task<HttpResponseMessage> getResponse = method.RequestAsync("get", requestUrl, null, true);
+
+            HttpResponseMessage resp = await getResponse;
+
+            return await resp.Content.ReadAsStreamAsync();
+        }
 
         //Run a command
         public async Task<HttpResponseMessage> Command(string sceneId, string commandOptions)

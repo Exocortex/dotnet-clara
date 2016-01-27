@@ -191,6 +191,14 @@ namespace dotnet_clara
                                 output = clara.scene.Render(renderParams[0], renderParams[1], renderParams[2]).Result;
                                 break;
                             }
+                            if (property.Name == "thumbnailParams")
+                            {
+                                string[] thumbnailParams = (string[])property.GetValue(invokedVerbInstance);
+                                string sceneId = thumbnailParams[0];
+                                filePath = thumbnailParams[1];
+                                output = clara.scene.Thumbnail(sceneId).Result;
+                                break;
+                            }
                         }
                     }
                     if (resp != null)

@@ -58,7 +58,7 @@ namespace dotnet_clara.lib
             usage.AppendLine("--import <sceneId> <fileList> --- import a file into the scene");
             usage.AppendLine("--command <sceneId> <commandOptions> --- run a command");
             usage.AppendLine("--render <sceneId> <query> <options> <filePath> --- render an image");
-
+            usage.AppendLine("--thumbnail <sceneId> <query> <options> <filePath> --- render an image");
             return usage.ToString();
         }
 
@@ -134,6 +134,8 @@ namespace dotnet_clara.lib
             public string[] commandParams { get; set; }
             [OptionArray('r', "render", HelpText = "Tell the command to automatically stage files.")]
             public string[] renderParams { get; set; }
+            [OptionArray('t', "thumbnail", HelpText = "Tell the command to automatically stage files.")]
+            public string[] thumbnailParams { get; set; }
         }
     }
 
