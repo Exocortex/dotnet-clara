@@ -22,7 +22,7 @@ namespace dotnet_clara.lib
         public string GetUsage()
         {
             var usage = new StringBuilder();
-            usage.AppendLine("dotnet clara v1.0");
+            usage.AppendLine("dotnet clara v1.0.0.1");
             usage.AppendLine("Read README file for more usage instructions...");
             usage.AppendLine("-----------------Job-----------------------------");
             usage.AppendLine("help --- for help" );
