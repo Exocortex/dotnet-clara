@@ -87,25 +87,25 @@ namespace dotnet_clara
                         {
                             if (property.Name == "username")
                             {
-                                resp = clara.user.Get((string)property.GetValue(invokedVerbInstance)).Result;
+                                resp = clara.user.GetAsync((string)property.GetValue(invokedVerbInstance)).Result;
                                 break;
                             }     
                             if (property.Name == "updateQuery")
                             {
                                 string[] updateQuery = (string[])property.GetValue(invokedVerbInstance);
-                                resp = clara.user.Update(updateQuery[0],updateQuery[1]).Result;
+                                resp = clara.user.UpdateAsync(updateQuery[0],updateQuery[1]).Result;
                                 break;
                             }
                             if (property.Name == "listScenesQUery")
                             {
                                 string[] listScenesQUery = (string[])property.GetValue(invokedVerbInstance);
-                                resp = clara.user.ListScenes(listScenesQUery[0], listScenesQUery[1]).Result;
+                                resp = clara.user.ListScenesAsync(listScenesQUery[0], listScenesQUery[1]).Result;
                                 break;
                             }
                             if (property.Name == "listJobsQuery")
                             {
                                 string[] listJobsQuery = (string[])property.GetValue(invokedVerbInstance);
-                                resp = clara.user.ListJobs(listJobsQuery[0], listJobsQuery[1]).Result;
+                                resp = clara.user.ListJobsAsync(listJobsQuery[0], listJobsQuery[1]).Result;
                                 break;
                             }
                         }
@@ -129,42 +129,42 @@ namespace dotnet_clara
                         {
                             if (property.Name == "libraryQuery")
                             {
-                                resp = clara.scene.Library((string)property.GetValue(invokedVerbInstance)).Result;
+                                resp = clara.scene.LibraryAsync((string)property.GetValue(invokedVerbInstance)).Result;
                                 break;
                             }  
                             if (property.Name == "getSceneId")
                             {
                                 string sceneId = (string)property.GetValue(invokedVerbInstance);
-                                resp = clara.scene.Get(sceneId).Result;
+                                resp = clara.scene.GetAsync(sceneId).Result;
                                 break;
                             }
                             if (property.Name == "updateQuery")
                             {
                                 string[] updateQuery = (string[])property.GetValue(invokedVerbInstance);
-                                resp = clara.scene.Update(updateQuery[0], updateQuery[1]).Result;
+                                resp = clara.scene.UpdateAsync(updateQuery[0], updateQuery[1]).Result;
                                 break;
                             }
                             if (property.Name == "create")
                             {
                                 if((bool)property.GetValue(invokedVerbInstance))
-                                    resp = clara.scene.Create().Result;
+                                    resp = clara.scene.CreateAsync().Result;
                             }
                             if (property.Name == "cloneSceneId")
                             {
                                 string cloneSceneId = (string)property.GetValue(invokedVerbInstance);
-                                resp = clara.scene.Clone(cloneSceneId).Result;
+                                resp = clara.scene.CloneAsync(cloneSceneId).Result;
                                 break;
                             }
                             if (property.Name == "deleteSceneId")
                             {
                                 string deleteSceneId = (string)property.GetValue(invokedVerbInstance);
-                                resp = clara.scene.Delete(deleteSceneId).Result;
+                                resp = clara.scene.DeleteAsync(deleteSceneId).Result;
                                 break;
                             }
                             if (property.Name == "commandParams")
                             {
                                 string[] commandParams = (string[])property.GetValue(invokedVerbInstance);
-                                resp = clara.scene.Command(commandParams[0], commandParams[1]).Result;
+                                resp = clara.scene.CommandAsync(commandParams[0], commandParams[1]).Result;
                                 break;
                             }
                             if (property.Name == "importParams")
@@ -172,7 +172,7 @@ namespace dotnet_clara
                                 string[] importParams = (string[])property.GetValue(invokedVerbInstance);
                                 string[] fileList = new string[importParams.Length - 1];
                                 Array.Copy(importParams, 1, fileList, 0, fileList.Length);
-                                resp = clara.scene.Import(importParams[0], fileList).Result;
+                                resp = clara.scene.ImportAsync(importParams[0], fileList).Result;
                                 break;
                             }
                             if (property.Name == "exportParams")
@@ -180,7 +180,7 @@ namespace dotnet_clara
                                 string[] exportParams = (string[])property.GetValue(invokedVerbInstance);
                                 filePath = exportParams[2];
                                 Console.WriteLine("[INFO]:Exporting...");
-                                output = clara.scene.Export(exportParams[0], exportParams[1]).Result;
+                                output = clara.scene.ExportAsync(exportParams[0], exportParams[1]).Result;
                                 break;
                             }
                             if (property.Name == "renderParams")
@@ -188,7 +188,7 @@ namespace dotnet_clara
                                 string[] renderParams = (string[])property.GetValue(invokedVerbInstance);
                                 filePath = renderParams[3];
                                 Console.WriteLine("[INFO]:Rendering...");
-                                output = clara.scene.Render(renderParams[0], renderParams[1], renderParams[2]).Result;
+                                output = clara.scene.RenderAsync(renderParams[0], renderParams[1], renderParams[2]).Result;
                                 break;
                             }
                             if (property.Name == "thumbnailParams")
@@ -196,7 +196,7 @@ namespace dotnet_clara
                                 string[] thumbnailParams = (string[])property.GetValue(invokedVerbInstance);
                                 string sceneId = thumbnailParams[0];
                                 filePath = thumbnailParams[1];
-                                output = clara.scene.Thumbnail(sceneId).Result;
+                                output = clara.scene.ThumbnailAsync(sceneId).Result;
                                 break;
                             }
                         }
@@ -215,20 +215,12 @@ namespace dotnet_clara
                         Console.WriteLine("[INFO]:File saved in {0}", filePath);
                         file.Close();
                     }
-
                 }
-
-
             }
             else
             {
                 Console.WriteLine(options.GetUsage());
             }
-
-
         }
-
     }
-
-
 }
