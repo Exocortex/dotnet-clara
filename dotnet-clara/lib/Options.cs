@@ -33,12 +33,12 @@ namespace dotnet_clara.lib
             usage.AppendLine("[option] : username, apiToken, host ");
 
             usage.AppendLine("-----------------Job-----------------------------");
-            usage.AppendLine("job --[option] <value>");
+            usage.AppendLine("job --[option] <value> : access the job resource.");
             usage.AppendLine("[option] : get ");
             usage.AppendLine("--get <jobId> --- get job data ");
 
             usage.AppendLine("-----------------User----------------------------");
-            usage.AppendLine("user --[option] <value>");
+            usage.AppendLine("user --[option] <value> : access the user resource.");
             usage.AppendLine("[option] : get, update, listScenes, listJobs");
             usage.AppendLine("--get <username> --- get user profile");
             usage.AppendLine("--update <username> <profile> --- update user profiel");
@@ -46,7 +46,7 @@ namespace dotnet_clara.lib
             usage.AppendLine("--listJobs <username> <query> --- list user's jobs");
 
             usage.AppendLine("-----------------Scene---------------------------");
-            usage.AppendLine("scene --[option] <value> : get one configuration item.");
+            usage.AppendLine("scene --[option] <value> : access the scene resource.");
             usage.AppendLine("[option] : get, update, library, create, delete, clone, export, import, command, render");
             usage.AppendLine("--get <sceneId> --- get a scene data");
             usage.AppendLine("--update <sceneId> <sceneName> --- update a scene");
