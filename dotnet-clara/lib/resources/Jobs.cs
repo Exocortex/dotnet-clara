@@ -18,12 +18,20 @@ namespace dotnet_clara.lib.resources
             method = new Method("jobs");
         }
         //Get job data
-        public async Task<HttpResponseMessage> Get(string jobId)
+        public async Task<HttpResponseMessage> GetAsync(string jobId)
         {
             string requestUrl = jobId;
 
             Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, null);
             return await response;
+        }
+
+        public HttpResponseMessage Get(string jobId)
+        {
+            string requestUrl = jobId;
+
+            HttpResponseMessage response = method.Request("get", requestUrl, null);
+            return response;
         }
     }
 }

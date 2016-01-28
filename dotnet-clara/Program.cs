@@ -67,7 +67,7 @@ namespace dotnet_clara
                     {
                         if (property.GetValue(invokedVerbInstance) != null)
                         {
-                            HttpResponseMessage resp = clara.jobs.Get((string)property.GetValue(invokedVerbInstance)).Result;
+                            HttpResponseMessage resp = clara.jobs.GetAsync((string)property.GetValue(invokedVerbInstance)).Result;
                             StreamReader stream = new StreamReader(resp.Content.ReadAsStreamAsync().Result);
                             string str = stream.ReadToEnd();
                             usage.Append(str);
