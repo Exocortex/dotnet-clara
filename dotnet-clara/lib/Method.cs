@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using RestSharp;
@@ -117,49 +116,5 @@ namespace dotnet_clara.lib
             }
             return response;
         }
-
-        public async Task<HttpResponseMessage> RequestAsync(string method, string requestUrl, HttpContent content, bool reqOutput = false)
-        {
-            Task<HttpResponseMessage> response = null;
-
-            this.client.DefaultRequestHeaders.Accept.Clear();
-            this.client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            switch (method)
-            {
-                case "post":
-                    response = this.client.PostAsync(requestUrl, content);
-                    if (reqOutput)
-                    {
-                        HttpResponseMessage resp = await response;
-                        if (resp.Headers.Location != null)
-                        {
-                            HttpResponseMessage outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
-
-                            while (outputResponse.Content.Headers.ContentDisposition == null)
-                            {
-                                Thread.Sleep(2000);
-                                outputResponse = this.client.GetAsync(resp.Headers.Location).Result;
-                            }
-
-                            return outputResponse;
-                        }
-                    }
-                    break;
-                case "get":
-                    response = this.client.GetAsync(requestUrl);
-                    break;
-                case "delete":
-                    response = this.client.DeleteAsync(requestUrl);
-                    break;
-                case "put":
-                    response = this.client.PutAsync(requestUrl, content);
-                    break;
-            }
-            return await response;
-        }
-
-
-
     }
 }
