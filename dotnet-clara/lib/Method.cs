@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Threading;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using RestSharp;
 using System.Drawing;
 using System.IO;
