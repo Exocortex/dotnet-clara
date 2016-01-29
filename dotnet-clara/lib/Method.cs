@@ -16,23 +16,19 @@ namespace dotnet_clara.lib
     public class Method
     {
         private string resource;
-        private HttpClient client;
+        private RestClient client;
         private Config config;
         private Config.ConfigInfo configInfo;
 
         public Method(string resource)
         {
             this.resource = resource;
-            this.client = new HttpClient();
+            this.client = new RestClient();
             this.config = new Config();
             this.configInfo = config.ReadConfig(null);
 
-            this.client.BaseAddress = new Uri("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
-
-            this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(
-                    System.Text.ASCIIEncoding.ASCII.GetBytes(
-                        string.Format("{0}:{1}", configInfo.username, configInfo.apiToken))));
+            this.client.BaseUrl = new Uri("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
+            this.client.Authenticator = new RestSharp.Authenticators.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
         }
 
         public class NewtonsoftJsonSerializer : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
