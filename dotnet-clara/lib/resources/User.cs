@@ -40,14 +40,6 @@ namespace dotnet_clara.lib.resources
             public string website { get; set; }
         }
         //Get user profile
-        public async Task<HttpResponseMessage> GetAsync(string username)
-        {
-            string requestUrl = username;
-
-            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, null);
-            return await response;
-        }
-
         public HttpResponseMessage Get(string username)
         {
             string requestUrl = username;
@@ -57,19 +49,6 @@ namespace dotnet_clara.lib.resources
         }
 
         // Update user profile
-        public async Task<HttpResponseMessage> UpdateAsync(string username, string profile)
-        {
-            string requestUrl = username;
-
-            Profile pro = JsonConvert.DeserializeObject<Profile>(profile);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(pro);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Task<HttpResponseMessage> response = method.RequestAsync("put", requestUrl, content);
-            return await response;
-        }
-
         public HttpResponseMessage Update(string username, string profile)
         {
             string requestUrl = username;
@@ -84,18 +63,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //List your scenes
-        public async Task<HttpResponseMessage> ListScenesAsync(string username, string query)
-        {            
-            string requestUrl = username + "/scenes";
-
-            SceneQuery queryObj = JsonConvert.DeserializeObject<SceneQuery>(query);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(queryObj);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, content);
-            return await response;
-        }
         public HttpResponseMessage ListScenes(string username, string query)
         {
             string requestUrl = username + "/scenes";
@@ -110,18 +77,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //List your jobs
-        public async Task<HttpResponseMessage> ListJobsAsync(string username, string query)
-        {
-            string requestUrl = username + "/jobs";
-
-            JobQuery qry = JsonConvert.DeserializeObject<JobQuery>(query);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(qry);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, content);
-            return await response;
-        }
         public HttpResponseMessage ListJobs(string username, string query)
         {
             string requestUrl = username + "/jobs";

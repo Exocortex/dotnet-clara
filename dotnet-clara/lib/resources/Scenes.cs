@@ -59,30 +59,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Render an image
-        public async Task<Stream> RenderAsync(string sceneId, string query, string options)
-        {
-            RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
-            CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(options);
-
-            string requestUrl = sceneId + "/render";
-            if (option.command == null)
-                renderQuery.setupCommand = "";
-            else
-                renderQuery.setupCommand = option.command;
-
-            renderQuery.data = option.data;
-            
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(renderQuery);
-
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Task<HttpResponseMessage> getResponse = method.RequestAsync("post", requestUrl, content, true);
-
-            HttpResponseMessage resp = await getResponse;
-
-            return await resp.Content.ReadAsStreamAsync();
-        }
         public Stream Render(string sceneId, string query, string options)
         {
             RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
@@ -106,16 +82,6 @@ namespace dotnet_clara.lib.resources
             return resp.Content.ReadAsStreamAsync().Result;
         }
         //Return the thumbnail of the scene
-        public async Task<Stream> ThumbnailAsync(string sceneId)
-        {
-            string requestUrl = sceneId + "/thumbnail.jpg";
-
-            Task<HttpResponseMessage> getResponse = method.RequestAsync("get", requestUrl, null, true);
-
-            HttpResponseMessage resp = await getResponse;
-
-            return await resp.Content.ReadAsStreamAsync();
-        }
         public Stream Thumbnail(string sceneId)
         {
             string requestUrl = sceneId + "/thumbnail.jpg";
@@ -126,25 +92,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Run a command
-        public async Task<HttpResponseMessage> CommandAsync(string sceneId, string commandOptions)
-        {
-            CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
-            string requestUrl = sceneId + "/command/" + option.command;
-
-            var data = new { data = option.data };
-
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json;
-            if (option.data == null)
-                json = "{}";
-            else
-                json = jsonSerializer.Serialize(data);
-
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content);
-
-            return await response;
-        }
         public HttpResponseMessage Command(string sceneId, string commandOptions)
         {
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
@@ -166,26 +113,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Import files
-        public async Task<HttpResponseMessage> ImportAsync(string sceneId, string[] fileList)
-        {
-            string requestUrl = sceneId + "/import";
-
-            var content = new MultipartFormDataContent();
-
-            foreach (string file in fileList)
-            {
-                var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(file));
-
-                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = file
-                };
-                content.Add(fileContent);
-            }
-            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, content);
-
-            return await response;
-        }
         public HttpResponseMessage Import(string sceneId, string[] fileList)
         {
             string requestUrl = sceneId + "/import";
@@ -208,14 +135,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Export a scene
-        public async Task<Stream> ExportAsync(string sceneId, string extension)
-        {
-            string requestUrl = sceneId + "/export/" + extension;
-            Task<HttpResponseMessage> getResponse = method.RequestAsync("post", requestUrl, null, true); ;
-            HttpResponseMessage resp = await getResponse;
-
-            return await resp.Content.ReadAsStreamAsync();
-        }
         public Stream Export(string sceneId, string extension)
         {
             string requestUrl = sceneId + "/export/" + extension;
@@ -225,12 +144,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Clone a scene
-        public async Task<HttpResponseMessage> CloneAsync(string sceneId)
-        {
-            string requestUrl = sceneId + "/clone";
-            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, null);
-            return await response;
-        }
         public HttpResponseMessage Clone(string sceneId)
         {
             string requestUrl = sceneId + "/clone";
@@ -239,12 +152,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Delete a scene
-        public async Task<HttpResponseMessage> DeleteAsync(string sceneId)
-        {
-            string requestUrl = sceneId;
-            Task<HttpResponseMessage> response = method.RequestAsync("delete", requestUrl, null);
-            return await response;
-        }
         public HttpResponseMessage Delete(string sceneId)
         {
             string requestUrl = sceneId;
@@ -253,13 +160,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Create a scene
-        public async Task<HttpResponseMessage> CreateAsync()
-        {
-            string requestUrl = null;
-
-            Task<HttpResponseMessage> response = method.RequestAsync("post", requestUrl, null);
-            return await response;
-        }
         public HttpResponseMessage Create()
         {
             string requestUrl = null;
@@ -269,17 +169,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //Update a scene
-        public async Task<HttpResponseMessage> UpdateAsync(string sceneId, string sceneName)
-        {
-            string requestUrl = sceneId;
-
-            string json = "{\"name\":\"" + sceneName + "\"}";
-
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Task<HttpResponseMessage> response = method.RequestAsync("put", requestUrl, content);
-            return await response;
-        }
         public HttpResponseMessage Update(string sceneId, string sceneName)
         {
             string requestUrl = sceneId;
@@ -292,13 +181,6 @@ namespace dotnet_clara.lib.resources
             return response;
         }
         //Create a scene
-        public async Task<HttpResponseMessage> GetAsync(string sceneId)
-        {
-            string requestUrl = sceneId;
-
-            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, null);
-            return await response;
-        }
         public HttpResponseMessage Get(string sceneId)
         {
             string requestUrl = sceneId;
@@ -308,18 +190,6 @@ namespace dotnet_clara.lib.resources
         }
 
         //List public scenes
-        public async Task<HttpResponseMessage> LibraryAsync(string query)
-        {
-            string requestUrl = null;
-
-            Query queryObj = JsonConvert.DeserializeObject<Query>(query);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(queryObj);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Task<HttpResponseMessage> response = method.RequestAsync("get", requestUrl, content);
-            return await response;
-        }
         public HttpResponseMessage Library(string query)
         {
             string requestUrl = null;
