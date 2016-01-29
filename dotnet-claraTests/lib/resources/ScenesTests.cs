@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace dotnet_clara.lib.resoureces.Tests
 {
     [TestClass()]
@@ -22,14 +23,14 @@ namespace dotnet_clara.lib.resoureces.Tests
         [TestMethod()]
         public void UpdateTest()
         {
-            resp = scene.Update(sceneId, "newName").Result;
+            resp = scene.UpdateAsync(sceneId, "newName").Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
         [TestMethod()]
         public void GetTest()
         {
-            resp = scene.Get(sceneId).Result;
+            resp = scene.GetAsync(sceneId).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -37,14 +38,14 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void LibraryTest()
         {
             string query = "{\"page\":5,\"perPage\":10,\"query\":\"robot\" }";
-            resp = scene.Library(query).Result;
+            resp = scene.LibraryAsync(query).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
         [TestMethod()]
         public void CreateTest()
         {
-            resp = scene.Create().Result;
+            resp = scene.CreateAsync().Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -52,14 +53,14 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void DeleteTest()
         {
             string sid = "2a68e13e-b8f2-4f4d-bcc1-556188bf7fb6";
-            resp = scene.Delete(sid).Result;
+            resp = scene.DeleteAsync(sid).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
         [TestMethod()]
         public void CloneTest()
         {
-            resp = scene.Clone(sceneId).Result;
+            resp = scene.CloneAsync(sceneId).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -67,7 +68,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void ExportTest()
         {
             Stream stream;
-            stream = scene.Export(sceneId,"fbx").Result;
+            stream = scene.ExportAsync(sceneId,"fbx").Result;
             Assert.IsNotNull(stream);
         }
 
@@ -76,7 +77,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         {
             string[] file = new string[1];
             file[0] = "g:\\test.png";
-            resp = scene.Import(sceneId, file).Result;
+            resp = scene.ImportAsync(sceneId, file).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -84,7 +85,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void CommandTest()
         {
             string commandOpt = "{command:\"vary/sceneSetup\"}";
-            resp = scene.Command(sceneId,commandOpt).Result;
+            resp = scene.CommandAsync(sceneId,commandOpt).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -92,7 +93,15 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void RenderTest()
         {
             Stream stream;
-            stream = scene.Render(sceneId, "{}", "{}").Result;
+            stream = scene.RenderAsync(sceneId, "{}", "{}").Result;
+            Assert.IsNotNull(stream);
+        }
+
+        [TestMethod()]
+        public void ThumbnailTest()
+        {
+            Stream stream;
+            stream = scene.ThumbnailAsync(sceneId).Result;
             Assert.IsNotNull(stream);
         }
     }

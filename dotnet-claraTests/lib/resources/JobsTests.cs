@@ -21,7 +21,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         [TestMethod()]
         public void GetTest()
         {
-            resp = jobs.Get(jobId).Result;
+            resp = jobs.GetAsync(jobId).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
     }

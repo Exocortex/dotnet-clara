@@ -21,7 +21,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         [TestMethod()]
         public void GetTest()
         {
-            resp = user.Get(username).Result;
+            resp = user.GetAsync(username).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -29,7 +29,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void ListScenesTest()
         {
             string scenesQry = "{page:5,perPage:10,query:\"tank\"}";
-            resp = user.ListScenes(username, scenesQry).Result;
+            resp = user.ListScenesAsync(username, scenesQry).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
 
@@ -37,7 +37,7 @@ namespace dotnet_clara.lib.resoureces.Tests
         public void ListJobsTest()
         {
             string jobsQry = "{page:5,perPage:10}";
-            resp = user.ListScenes(username, jobsQry).Result;
+            resp = user.ListScenesAsync(username, jobsQry).Result;
             Assert.AreEqual(resp.StatusCode, HttpStatusCode.OK);
         }
     }
