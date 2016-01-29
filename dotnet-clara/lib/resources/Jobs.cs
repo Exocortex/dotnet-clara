@@ -20,8 +20,9 @@ namespace dotnet_clara.lib.resources
         public IRestResponse Get(string jobId)
         {
             string requestUrl = jobId;
-
-            IRestResponse response = method.Request("get", requestUrl, null);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse response = method.Request("get", request);
             return response;
         }
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -56,13 +57,28 @@ namespace dotnet_clara.lib.resources
         }
 
         //Render an image
-        /*public Stream Render(string sceneId, string query, string options)
+        public byte[] Render(string sceneId, string query, string options)
         {
             RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(options);
 
             string requestUrl = sceneId + "/render";
-            if (option.command == null)
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+
+            PropertyInfo[] properties = typeof(RenderQuery).GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string key = property.Name;
+                string value = null;
+                if (property.GetValue(renderQuery, null) != null)
+                    value = property.GetValue(renderQuery, null).ToString();
+                    
+                request.AddQueryParameter(key, value);
+            }
+            
+            /*if (option.command == null)
                 renderQuery.setupCommand = "";
             else
                 renderQuery.setupCommand = option.command;
@@ -70,16 +86,15 @@ namespace dotnet_clara.lib.resources
             renderQuery.data = option.data;
 
             var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(renderQuery);
+            string json = jsonSerializer.Serialize(renderQuery);*/
 
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            //StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage resp = method.Request("post", requestUrl, content, true);
-
-            return resp.Content.ReadAsStreamAsync().Result;
+            IRestResponse resp = method.Request("post", request, true);
+            return resp.RawBytes;
         }
         //Return the thumbnail of the scene
-        public Stream Thumbnail(string sceneId)
+        /*public Stream Thumbnail(string sceneId)
         {
             string requestUrl = sceneId + "/thumbnail.jpg";
 

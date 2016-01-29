@@ -74,40 +74,41 @@ namespace dotnet_clara.lib
             }
         }
 
-        public IRestResponse Request(string method, string requestUrl, bool reqOutput = false)
+        public IRestResponse Request(string method, RestRequest request, bool reqOutput = false)
         {
-            IRestResponse response = null;
-            RestRequest request;    
+            IRestResponse response = null;   
 
             switch (method)
             {
-                /*case "post":
-                    request = new RestRequest(RestSharp.Method.POST);
+                case "post":
+                    request.Method = RestSharp.Method.POST;
                     response = this.client.Execute(request);
-                    if (reqOutput && response.Headers.Location != null)
+                    if (reqOutput && response.Headers[4].Value != null)
                     {
-                        HttpResponseMessage outputResponse = this.client.GetAsync(response.Headers.Location).Result;
+                        RestRequest newRequest = new RestRequest(RestSharp.Method.GET);
+                        this.client.BaseUrl = new Uri(response.Headers[4].Value.ToString());
+                        IRestResponse outputResponse = this.client.Execute(newRequest);
 
-                        while (outputResponse.Content.Headers.ContentDisposition == null)
+                        while (outputResponse.ContentLength == -1)
                         {
                             Thread.Sleep(2000);
-                            outputResponse = this.client.GetAsync(response.Headers.Location).Result;
-                        }
-                        
+                            outputResponse = this.client.Execute(newRequest);
+                        }                      
                         return outputResponse;
                     }
-                    break;*/
+                    break;
                 case "get":
-                    request = new RestRequest(RestSharp.Method.GET);
-                    request.AddParameter("Url", requestUrl);
+                    request.Method = RestSharp.Method.GET;
                     response = this.client.Execute(request);
                     break;
-                /*case "delete":
-                    response = this.client.DeleteAsync(requestUrl).Result;
+                case "delete":
+                    request.Method = RestSharp.Method.DELETE;
+                    response = this.client.Execute(request);
                     break;
                 case "put":
-                    response = this.client.PutAsync(requestUrl, content).Result;
-                    break;*/
+                    request.Method = RestSharp.Method.PUT;
+                    response = this.client.Execute(request);
+                    break;
             }
             return response;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -38,16 +39,17 @@ namespace dotnet_clara.lib.resources
             public string website { get; set; }
         }
         //Get user profile
-       /* public HttpResponseMessage Get(string username)
+        public IRestResponse Get(string username)
         {
             string requestUrl = username;
-
-            HttpResponseMessage response = method.Request("get", requestUrl, null);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse response = method.Request("get", request);
             return response;
         }
 
         // Update user profile
-        public HttpResponseMessage Update(string username, string profile)
+        /*public IRestResponse Update(string username, string profile)
         {
             string requestUrl = username;
 
@@ -56,12 +58,12 @@ namespace dotnet_clara.lib.resources
             string json = jsonSerializer.Serialize(pro);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("put", requestUrl, content);
+            IRestResponse response = method.Request("put", requestUrl, content);
             return response;
         }
 
         //List your scenes
-        public HttpResponseMessage ListScenes(string username, string query)
+        public IRestResponse ListScenes(string username, string query)
         {
             string requestUrl = username + "/scenes";
 
@@ -75,7 +77,7 @@ namespace dotnet_clara.lib.resources
         }
 
         //List your jobs
-        public HttpResponseMessage ListJobs(string username, string query)
+        public IRestResponse ListJobs(string username, string query)
         {
             string requestUrl = username + "/jobs";
 
@@ -84,7 +86,7 @@ namespace dotnet_clara.lib.resources
             string json = jsonSerializer.Serialize(qry);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("get", requestUrl, content);
+            IRestResponse response = method.Request("get", requestUrl, content);
             return response;
         }*/
     }
