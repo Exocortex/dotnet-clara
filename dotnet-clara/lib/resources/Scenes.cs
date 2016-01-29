@@ -56,7 +56,7 @@ namespace dotnet_clara.lib.resources
         }
 
         //Render an image
-        public Stream Render(string sceneId, string query, string options)
+        /*public Stream Render(string sceneId, string query, string options)
         {
             RenderQuery renderQuery = JsonConvert.DeserializeObject<RenderQuery>(query);
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(options);
@@ -198,7 +198,7 @@ namespace dotnet_clara.lib.resources
 
             HttpResponseMessage response = method.Request("get", requestUrl, content);
             return response;
-        }
+        }*/
 
     }
 }

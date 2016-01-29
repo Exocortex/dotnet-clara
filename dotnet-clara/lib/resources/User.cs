@@ -38,7 +38,7 @@ namespace dotnet_clara.lib.resources
             public string website { get; set; }
         }
         //Get user profile
-        public HttpResponseMessage Get(string username)
+       /* public HttpResponseMessage Get(string username)
         {
             string requestUrl = username;
 
@@ -86,6 +86,6 @@ namespace dotnet_clara.lib.resources
 
             HttpResponseMessage response = method.Request("get", requestUrl, content);
             return response;
-        }
+        }*/
     }
 }

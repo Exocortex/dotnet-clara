@@ -74,17 +74,16 @@ namespace dotnet_clara.lib
             }
         }
 
-        public HttpResponseMessage Request(string method, string requestUrl, HttpContent content, bool reqOutput = false)
+        public IRestResponse Request(string method, string requestUrl, bool reqOutput = false)
         {
-            HttpResponseMessage response = null;
-   
-            this.client.DefaultRequestHeaders.Accept.Clear();
-            this.client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));          
+            IRestResponse response = null;
+            RestRequest request;    
 
             switch (method)
             {
-                case "post":
-                    response = this.client.PostAsync(requestUrl, content).Result;
+                /*case "post":
+                    request = new RestRequest(RestSharp.Method.POST);
+                    response = this.client.Execute(request);
                     if (reqOutput && response.Headers.Location != null)
                     {
                         HttpResponseMessage outputResponse = this.client.GetAsync(response.Headers.Location).Result;
@@ -97,16 +96,18 @@ namespace dotnet_clara.lib
                         
                         return outputResponse;
                     }
-                    break;
+                    break;*/
                 case "get":
-                    response = this.client.GetAsync(requestUrl).Result;
+                    request = new RestRequest(RestSharp.Method.GET);
+                    request.AddParameter("Url", requestUrl);
+                    response = this.client.Execute(request);
                     break;
-                case "delete":
+                /*case "delete":
                     response = this.client.DeleteAsync(requestUrl).Result;
                     break;
                 case "put":
                     response = this.client.PutAsync(requestUrl, content).Result;
-                    break;
+                    break;*/
             }
             return response;
         }

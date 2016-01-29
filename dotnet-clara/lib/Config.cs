@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -96,7 +95,7 @@ namespace dotnet_clara.lib
             foreach (PropertyInfo property in properties)
             {
                 if (property.Name == key)
-                    value = (string)property.GetValue(configObj);
+                    value = (string)property.GetValue(configObj, null);
             }
             return value;
         }
@@ -110,7 +109,7 @@ namespace dotnet_clara.lib
             foreach (PropertyInfo property in properties)
             {
                 if (property.Name == key)
-                    property.SetValue(curConfig, value);
+                    property.SetValue(curConfig, value, null);
             }
             WriteConfig(curConfig);
         }

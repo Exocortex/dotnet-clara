@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -16,11 +17,11 @@ namespace dotnet_clara.lib.resources
             method = new Method("jobs");
         }
         //Get job data
-        public HttpResponseMessage Get(string jobId)
+        public IRestResponse Get(string jobId)
         {
             string requestUrl = jobId;
 
-            HttpResponseMessage response = method.Request("get", requestUrl, null);
+            IRestResponse response = method.Request("get", requestUrl, null);
             return response;
         }
     }
