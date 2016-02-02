@@ -8,7 +8,7 @@ namespace dotnet_clara.lib
 {
     public class Clara
     {
-        public Scenes scene;
+        public Scenes scenes;
         public Jobs jobs;
         public User user;
         private Config config;
@@ -20,14 +20,14 @@ namespace dotnet_clara.lib
             config.SetConfig("username", username);
             config.SetConfig("apiToken", apiToken);
             config.SetConfig("host", host);
-            this.scene = new Scenes();
+            this.scenes = new Scenes();
             this.jobs = new Jobs();
             this.user = new User();
         }
         public Clara(Config config)
         {
             this.config = config;
-            this.scene = new Scenes();
+            this.scenes = new Scenes();
             this.jobs = new Jobs();
             this.user = new User();
         }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using RestSharp;
 using System.Drawing;
@@ -26,7 +29,6 @@ namespace dotnet_clara.lib
             this.client = new RestClient();
             this.config = new Config();
             this.configInfo = config.ReadConfig(null);
-
             this.client.BaseUrl = new Uri("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
             this.client.Authenticator = new RestSharp.Authenticators.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
         }
@@ -76,6 +78,7 @@ namespace dotnet_clara.lib
 
         public IRestResponse Request(string method, RestRequest request, bool reqOutput = false)
         {
+            
             IRestResponse response = null;   
 
             switch (method)
@@ -87,6 +90,7 @@ namespace dotnet_clara.lib
                     {
                         RestRequest newRequest = new RestRequest(RestSharp.Method.GET);
                         this.client.BaseUrl = new Uri(response.Headers[4].Value.ToString());
+                        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((srvPoint, certificate, chain, errors) => true);
                         IRestResponse outputResponse = this.client.Execute(newRequest);
 
                         while (outputResponse.ContentLength == -1)

@@ -94,17 +94,18 @@ namespace dotnet_clara.lib.resources
             return resp.RawBytes;
         }
         //Return the thumbnail of the scene
-        /*public Stream Thumbnail(string sceneId)
+        public byte[] Thumbnail(string sceneId)
         {
             string requestUrl = sceneId + "/thumbnail.jpg";
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse resp = method.Request("get", request, true);
 
-            HttpResponseMessage resp = method.Request("get", requestUrl, null, true);
-
-            return resp.Content.ReadAsStreamAsync().Result;
+            return resp.RawBytes;
         }
 
         //Run a command
-        public HttpResponseMessage Command(string sceneId, string commandOptions)
+        /*public HttpResponseMessage Command(string sceneId, string commandOptions)
         {
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
             string requestUrl = sceneId + "/command/" + option.command;

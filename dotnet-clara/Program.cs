@@ -23,7 +23,7 @@ namespace dotnet_clara
             string jobId = "8ca62d7f-2fbc-4d3a-9894-7fbe513548ee";
             //IRestResponse response = clara.jobs.Get(jobId);
 
-            var bytes = clara.scene.Render(sceneId, "{width:800, height:600}", "{}");
+            var bytes = clara.scenes.Thumbnail(sceneId);
             var imagePath = "g:\\aaa.png";
 
             using (var imageFile = new FileStream(imagePath, FileMode.Create))
