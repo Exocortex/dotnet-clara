@@ -1,4 +1,4 @@
-# Clara.io api bindings for .Net framework
+# Clara.io api bindings for .Net 4.5 framework
 
 ## Installation 
 You can download the source code, build the project, and then run dotnet-clara.exe.
