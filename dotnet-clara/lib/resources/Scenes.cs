@@ -75,7 +75,7 @@ namespace dotnet_clara.lib.resources
                 if (property.GetValue(renderQuery, null) != null)
                     value = property.GetValue(renderQuery, null).ToString();
                     
-                request.AddQueryParameter(key, value);
+                request.AddParameter(key, value);
             }
             
             /*if (option.command == null)
@@ -100,6 +100,16 @@ namespace dotnet_clara.lib.resources
             RestRequest request = new RestRequest();
             request.Resource = requestUrl;
             IRestResponse resp = method.Request("get", request, true);
+
+            return resp.RawBytes;
+        }
+        //Export a scene
+        public byte[] Export(string sceneId, string extension)
+        {
+            string requestUrl = sceneId + "/export/" + extension;
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse resp = method.Request("post", request, true);         
 
             return resp.RawBytes;
         }

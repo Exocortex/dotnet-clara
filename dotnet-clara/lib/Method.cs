@@ -26,11 +26,10 @@ namespace dotnet_clara.lib
         public Method(string resource)
         {
             this.resource = resource;
-            this.client = new RestClient();
             this.config = new Config();
             this.configInfo = config.ReadConfig(null);
-            this.client.BaseUrl = new Uri("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
-            this.client.Authenticator = new RestSharp.Authenticators.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
+            this.client = new RestClient("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
+            this.client.Authenticator = new RestSharp.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
         }
 
         public class NewtonsoftJsonSerializer : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
@@ -79,21 +78,20 @@ namespace dotnet_clara.lib
         public IRestResponse Request(string method, RestRequest request, bool reqOutput = false)
         {
             
-            IRestResponse response = null;   
-
+            IRestResponse response = null;
+            ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
             switch (method)
             {
                 case "post":
-                    request.Method = RestSharp.Method.POST;
+                    request.Method = RestSharp.Method.POST;                   
                     response = this.client.Execute(request);
                     if (reqOutput && response.Headers[4].Value != null)
                     {
                         RestRequest newRequest = new RestRequest(RestSharp.Method.GET);
-                        this.client.BaseUrl = new Uri(response.Headers[4].Value.ToString());
-                        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((srvPoint, certificate, chain, errors) => true);
+                        this.client.BaseUrl = response.Headers[4].Value.ToString();
                         IRestResponse outputResponse = this.client.Execute(newRequest);
 
-                        while (outputResponse.ContentLength == -1)
+                        while (outputResponse.ResponseUri.ToString() == this.client.BaseUrl)
                         {
                             Thread.Sleep(2000);
                             outputResponse = this.client.Execute(newRequest);
@@ -115,6 +113,31 @@ namespace dotnet_clara.lib
                     break;
             }
             return response;
+        }
+
+        public bool MyRemoteCertificateValidationCallback(System.Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            bool isOk = true;
+            // If there are errors in the certificate chain, look at each error to determine the cause.
+            if (sslPolicyErrors != SslPolicyErrors.None)
+            {
+                for (int i = 0; i < chain.ChainStatus.Length; i++)
+                {
+                    if (chain.ChainStatus[i].Status != X509ChainStatusFlags.RevocationStatusUnknown)
+                    {
+                        chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
+                        chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                        chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
+                        chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
+                        bool chainIsValid = chain.Build((X509Certificate2)certificate);
+                        if (!chainIsValid)
+                        {
+                            isOk = false;
+                        }
+                    }
+                }
+            }
+            return isOk;
         }
     }
 }
