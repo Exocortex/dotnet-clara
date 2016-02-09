@@ -85,10 +85,17 @@ namespace dotnet_clara.lib
                 case "post":
                     request.Method = RestSharp.Method.POST;                   
                     response = this.client.Execute(request);
-                    if (reqOutput && response.Headers[4].Value != null)
+                    string location = "";
+                    foreach (var header in response.Headers)
+                    {
+                        if (header.Name == "Location")
+                            location = header.Value.ToString();
+                    }
+                    if (reqOutput && location != "")
                     {
                         RestRequest newRequest = new RestRequest(RestSharp.Method.GET);
-                        this.client.BaseUrl = response.Headers[4].Value.ToString();
+
+                        this.client.BaseUrl = location;
                         IRestResponse outputResponse = this.client.Execute(newRequest);
 
                         while (outputResponse.ResponseUri.ToString() == this.client.BaseUrl)
