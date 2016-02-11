@@ -1,4 +1,5 @@
-﻿using System;
+﻿//using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,15 @@ namespace dotnet_clara.lib
     public class Config
     {
         public ConfigInfo defaultConfig;
+
+        //For Android application file system.
+        //public static string home = Application.persistentDataPath;
+        //public static string configFilePath = home + "/dotnetClara.json";
+
+        public static string home = Environment.GetEnvironmentVariable("USERPROFILE");
+        public string configFilePath = home + "/.Netclara.json";
+
+
 
         public Config()
         {
@@ -31,8 +41,7 @@ namespace dotnet_clara.lib
             public string username { get; set; }
         }
 
-        public static string home = Environment.GetEnvironmentVariable("USERPROFILE");
-        public string configFilePath =  home + "/.Netclara.json";
+
         
         // Write the default config to disk when starting.
         public void initializeConfig()
