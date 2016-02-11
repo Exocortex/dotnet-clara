@@ -26,10 +26,10 @@ namespace dotnet_clara.lib
         {
             defaultConfig = new ConfigInfo
             {
-                apiToken = null,
+                apiToken = "",
                 basePath = "/api",
                 host = "clara.io",
-                username = null
+                username = ""
             };
         }
 
