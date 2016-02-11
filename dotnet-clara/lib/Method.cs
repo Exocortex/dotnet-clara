@@ -28,7 +28,7 @@ namespace dotnet_clara.lib
             this.resource = resource;
             this.config = new Config();
             this.configInfo = config.ReadConfig(null);
-            this.client = new RestClient("https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/");
+            this.client = new RestClient();
             this.client.Authenticator = new RestSharp.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
         }
 
@@ -80,6 +80,7 @@ namespace dotnet_clara.lib
             
             IRestResponse response = null;
             ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
+            this.client.BaseUrl = "https://" + configInfo.host + configInfo.basePath + "/" + this.resource + "/";
             switch (method)
             {
                 case "post":
