@@ -200,8 +200,10 @@ namespace dotnet_clara.lib.resources
         public IRestResponse Get(string sceneId)
         {
             string requestUrl = sceneId;
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
 
-            IRestResponse response = method.Request("get", requestUrl, null);
+            IRestResponse response = method.Request("get", request);
             return response;
         }
 
