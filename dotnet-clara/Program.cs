@@ -28,18 +28,18 @@ namespace dotnet_clara
 
 
 
-            string url = clara.scenes.Export(sceneId, "obj");
+            var bytes = clara.scenes.Render(sceneId, "{height:600, width:800}", "{command:\"presets/polarCameraSetup\", data:{radius:0.5,azimuthAngle:0,polarAngle:0}}");
             //var bytes = resp.RawBytes;
             //Stream stream = new MemoryStream(bytes);
 
-            using (var client = new WebClient())
+            /*using (var client = new WebClient())
             {
                 client.DownloadFile(url, "g:\\2.zip");
-            }
+            }*/
 
 
-            byte[] file = File.ReadAllBytes("g:\\2.zip");
-            byte[] decompressed = Decompress(file);
+            /*byte[] file = File.ReadAllBytes("g:\\2.zip");
+            byte[] decompressed = Decompress(bytes);
             Stream stream = new MemoryStream(decompressed);
             using (ZipFile zip = ZipFile.Read(stream))
             {
@@ -47,8 +47,14 @@ namespace dotnet_clara
                 {
                     entry.Extract("g:\\test\\");
                 }
-            }
+            }*/
+            var imagePath = "g:\\aaa.png";
 
+            using (var imageFile = new FileStream(imagePath, FileMode.Create))
+            {
+                imageFile.Write(bytes, 0, bytes.Length);
+                imageFile.Flush();
+            }
             var a = 6;
            
         }

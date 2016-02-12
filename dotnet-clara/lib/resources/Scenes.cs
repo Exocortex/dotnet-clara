@@ -66,6 +66,19 @@ namespace dotnet_clara.lib.resources
             RestRequest request = new RestRequest();
             request.Resource = requestUrl;
 
+
+            
+            if (option.command == null)
+                renderQuery.setupCommand = "";
+            else
+                renderQuery.setupCommand = option.command;
+
+            renderQuery.data = option.data;
+
+            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
+            string json = jsonSerializer.Serialize(renderQuery);
+
+            //StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             PropertyInfo[] properties = typeof(RenderQuery).GetProperties();
 
             foreach (PropertyInfo property in properties)
@@ -74,22 +87,9 @@ namespace dotnet_clara.lib.resources
                 string value = null;
                 if (property.GetValue(renderQuery, null) != null)
                     value = property.GetValue(renderQuery, null).ToString();
-                    
+
                 request.AddParameter(key, value);
             }
-            
-            /*if (option.command == null)
-                renderQuery.setupCommand = "";
-            else
-                renderQuery.setupCommand = option.command;
-
-            renderQuery.data = option.data;
-
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(renderQuery);*/
-
-            //StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
             IRestResponse resp = method.Request("post", request, true);
             return resp.RawBytes;
         }
@@ -104,14 +104,14 @@ namespace dotnet_clara.lib.resources
             return resp.RawBytes;
         }
         //Export a scene
-        public string Export(string sceneId, string extension)
+        public byte[] Export(string sceneId, string extension)
         {
             string requestUrl = sceneId + "/export/" + extension;
             RestRequest request = new RestRequest();
             request.Resource = requestUrl;
             IRestResponse resp = method.Request("post", request, true);         
            
-            return resp.ResponseUri.OriginalString;
+            return resp.RawBytes;
         }
 
         //Run a command
