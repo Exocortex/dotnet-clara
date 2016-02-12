@@ -75,9 +75,6 @@ namespace dotnet_clara.lib.resources
 
             renderQuery.data = option.data;
 
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(renderQuery);
-
             //StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             PropertyInfo[] properties = typeof(RenderQuery).GetProperties();
 
@@ -115,7 +112,7 @@ namespace dotnet_clara.lib.resources
         }
 
         //Run a command
-        /*public HttpResponseMessage Command(string sceneId, string commandOptions)
+        public IRestResponse Command(string sceneId, string commandOptions)
         {
             CommandOptions option = JsonConvert.DeserializeObject<CommandOptions>(commandOptions);
             string requestUrl = sceneId + "/command/" + option.command;
@@ -130,13 +127,13 @@ namespace dotnet_clara.lib.resources
                 json = jsonSerializer.Serialize(data);
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = method.Request("post", requestUrl, content);
+            IRestResponse response = method.Request("post", requestUrl, content);
 
             return response;
         }
 
         //Import files
-        public HttpResponseMessage Import(string sceneId, string[] fileList)
+        public IRestResponse Import(string sceneId, string[] fileList)
         {
             string requestUrl = sceneId + "/import";
 
@@ -152,38 +149,43 @@ namespace dotnet_clara.lib.resources
                 };
                 content.Add(fileContent);
             }
-            HttpResponseMessage response = method.Request("post", requestUrl, content);
+            IRestResponse response = method.Request("post", requestUrl, content);
 
             return response;
         }
 
         //Clone a scene
-        public HttpResponseMessage Clone(string sceneId)
+        public IRestResponse Clone(string sceneId)
         {
             string requestUrl = sceneId + "/clone";
-            HttpResponseMessage response = method.Request("post", requestUrl, null);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse response = method.Request("post", request);
             return response;
         }
 
         //Delete a scene
-        public HttpResponseMessage Delete(string sceneId)
+        public IRestResponse Delete(string sceneId)
         {
             string requestUrl = sceneId;
-            HttpResponseMessage response = method.Request("delete", requestUrl, null);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse response = method.Request("delete", request);
             return response;
         }
 
         //Create a scene
-        public HttpResponseMessage Create()
+        public IRestResponse Create()
         {
             string requestUrl = null;
-
-            HttpResponseMessage response = method.Request("post", requestUrl, null);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            IRestResponse response = method.Request("post", request);
             return response;
         }
 
         //Update a scene
-        public HttpResponseMessage Update(string sceneId, string sceneName)
+        public IRestResponse Update(string sceneId, string sceneName)
         {
             string requestUrl = sceneId;
 
@@ -191,31 +193,42 @@ namespace dotnet_clara.lib.resources
 
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("put", requestUrl, content);
+            IRestResponse response = method.Request("put", requestUrl, content);
             return response;
         }
         //Create a scene
-        public HttpResponseMessage Get(string sceneId)
+        public IRestResponse Get(string sceneId)
         {
             string requestUrl = sceneId;
 
-            HttpResponseMessage response = method.Request("get", requestUrl, null);
+            IRestResponse response = method.Request("get", requestUrl, null);
             return response;
         }
 
         //List public scenes
-        public HttpResponseMessage Library(string query)
+        public IRestResponse Library(string query)
         {
             string requestUrl = null;
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
 
             Query queryObj = JsonConvert.DeserializeObject<Query>(query);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(queryObj);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("get", requestUrl, content);
+            PropertyInfo[] properties = typeof(Query).GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string key = property.Name;
+                string value = null;
+                if (property.GetValue(queryObj, null) != null)
+                    value = property.GetValue(queryObj, null).ToString();
+
+                request.AddParameter(key, value);
+            }
+
+            IRestResponse response = method.Request("get", request);
             return response;
-        }*/
+        }
 
     }
 }
