@@ -157,15 +157,6 @@ namespace dotnet_clara.lib.resources
             return response;
         }
 
-        //Export a scene
-        public Stream Export(string sceneId, string extension)
-        {
-            string requestUrl = sceneId + "/export/" + extension;
-            HttpResponseMessage resp = method.Request("post", requestUrl, null, true); ;
-
-            return resp.Content.ReadAsStreamAsync().Result;
-        }
-
         //Clone a scene
         public HttpResponseMessage Clone(string sceneId)
         {

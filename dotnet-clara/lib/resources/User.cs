@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -49,16 +50,28 @@ namespace dotnet_clara.lib.resources
         }
 
         // Update user profile
-        /*public IRestResponse Update(string username, string profile)
+        public IRestResponse Update(string username, string profile)
         {
             string requestUrl = username;
 
             Profile pro = JsonConvert.DeserializeObject<Profile>(profile);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(pro);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            IRestResponse response = method.Request("put", requestUrl, content);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+
+            PropertyInfo[] properties = typeof(Profile).GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string key = property.Name;
+                string value = null;
+                if (property.GetValue(pro, null) != null)
+                    value = property.GetValue(pro, null).ToString();
+
+                request.AddParameter(key, value);
+            }
+
+            IRestResponse response = method.Request("put", request);
             return response;
         }
 
@@ -68,11 +81,24 @@ namespace dotnet_clara.lib.resources
             string requestUrl = username + "/scenes";
 
             SceneQuery queryObj = JsonConvert.DeserializeObject<SceneQuery>(query);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(queryObj);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = method.Request("get", requestUrl, content);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+
+            PropertyInfo[] properties = typeof(SceneQuery).GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string key = property.Name;
+                string value = null;
+                if (property.GetValue(queryObj, null) != null)
+                    value = property.GetValue(queryObj, null).ToString();
+
+                request.AddParameter(key, value);
+            }
+
+            IRestResponse response = method.Request("get", request);
+
             return response;
         }
 
@@ -82,12 +108,25 @@ namespace dotnet_clara.lib.resources
             string requestUrl = username + "/jobs";
 
             JobQuery qry = JsonConvert.DeserializeObject<JobQuery>(query);
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json = jsonSerializer.Serialize(qry);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            IRestResponse response = method.Request("get", requestUrl, content);
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+
+            PropertyInfo[] properties = typeof(JobQuery).GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                string key = property.Name;
+                string value = null;
+                if (property.GetValue(qry, null) != null)
+                    value = property.GetValue(qry, null).ToString();
+
+                request.AddParameter(key, value);
+            }
+
+            IRestResponse response = method.Request("get", request);
+
             return response;
-        }*/
+        }
     }
 }
