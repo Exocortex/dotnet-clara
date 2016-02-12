@@ -27,8 +27,8 @@ namespace dotnet_clara
             string jobId = "8ca62d7f-2fbc-4d3a-9894-7fbe513548ee";
 
 
-
-            var bytes = clara.scenes.Render(sceneId, "{height:600, width:800}", "{command:\"presets/polarCameraSetup\", data:{radius:0.5,azimuthAngle:0,polarAngle:0}}");
+            var bytes = clara.scenes.Command(sceneId, "{command:\"presets/polarCameraSetup\", data:{radius:0.5,azimuthAngle:0,polarAngle:0}}");
+            //var bytes = clara.scenes.Render(sceneId, "{height:600, width:800}", "{command:\"presets/polarCameraSetup\", data:{radius:0.5,azimuthAngle:0,polarAngle:0}}");
             //var bytes = resp.RawBytes;
             //Stream stream = new MemoryStream(bytes);
 
@@ -48,13 +48,13 @@ namespace dotnet_clara
                     entry.Extract("g:\\test\\");
                 }
             }*/
-            var imagePath = "g:\\aaa.png";
+            /*var imagePath = "g:\\aaa.png";
 
             using (var imageFile = new FileStream(imagePath, FileMode.Create))
             {
                 imageFile.Write(bytes, 0, bytes.Length);
                 imageFile.Flush();
-            }
+            }*/
             var a = 6;
            
         }

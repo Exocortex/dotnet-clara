@@ -118,16 +118,13 @@ namespace dotnet_clara.lib.resources
             string requestUrl = sceneId + "/command/" + option.command;
 
             var data = new { data = option.data };
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
 
-            var jsonSerializer = new Method.NewtonsoftJsonSerializer();
-            string json;
-            if (option.data == null)
-                json = "{}";
-            else
-                json = jsonSerializer.Serialize(data);
+            if (option.data != null)
+                request.AddParameter("data", data);
 
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            IRestResponse response = method.Request("post", requestUrl, content);
+            IRestResponse response = method.Request("post", request);
 
             return response;
         }
@@ -136,20 +133,14 @@ namespace dotnet_clara.lib.resources
         public IRestResponse Import(string sceneId, string[] fileList)
         {
             string requestUrl = sceneId + "/import";
-
-            var content = new MultipartFormDataContent();
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
 
             foreach (string file in fileList)
             {
-                var fileContent = new ByteArrayContent(System.IO.File.ReadAllBytes(file));
-
-                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = file
-                };
-                content.Add(fileContent);
+                request.AddFile(Path.GetFileNameWithoutExtension(file), file);
             }
-            IRestResponse response = method.Request("post", requestUrl, content);
+            IRestResponse response = method.Request("post", request);
 
             return response;
         }
@@ -188,12 +179,11 @@ namespace dotnet_clara.lib.resources
         public IRestResponse Update(string sceneId, string sceneName)
         {
             string requestUrl = sceneId;
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+            request.AddParameter("name", sceneId);
 
-            string json = "{\"name\":\"" + sceneName + "\"}";
-
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            IRestResponse response = method.Request("put", requestUrl, content);
+            IRestResponse response = method.Request("put", request);
             return response;
         }
         //Create a scene
